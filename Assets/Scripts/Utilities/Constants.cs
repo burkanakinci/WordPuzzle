@@ -21,7 +21,7 @@ public struct TileData
 {
     public int id;
     public Vector3 position;
-    public char character;
+    public string character;
     public int[] children;
 }
 #endregion

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public PlayerManager PlayerManager;
     public UIManager UIManager;
     public LevelManager LevelManager;
-    // public ObjectPool ObjectPool;
+    public ObjectPool ObjectPool;
     // public Entities Entities;
     // public InputManager InputManager;
     #endregion
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGameManager()
     {
-        // ObjectPool.Initialize(this);
+        ObjectPool.Initialize();
         JsonConverter.Initialize();
         PlayerManager.Initialize();
         LevelManager.Initialize();
