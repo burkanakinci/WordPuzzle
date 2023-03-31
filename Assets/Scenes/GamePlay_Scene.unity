@@ -2078,7 +2078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AreaCanvasGroup: {fileID: 5401396526308919269}
-  m_LevelPopupPrefab: {fileID: 8100967418829367487, guid: 5c7ee6dcaff2c924bb225c63df6b207b, type: 3}
+  m_LevelPopupPrefab: {fileID: 5135002324077388583, guid: 5c7ee6dcaff2c924bb225c63df6b207b, type: 3}
   m_LevelPopupParent: {fileID: 5401396525940275585}
 --- !u!225 &5401396526308919269
 CanvasGroup:

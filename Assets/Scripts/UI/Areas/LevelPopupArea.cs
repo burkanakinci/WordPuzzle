@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelPopupArea : BaseArea<MainMenuPanel>
 {
-    [SerializeField] private GameObject m_LevelPopupPrefab;
+    [SerializeField] private LevelPopup m_LevelPopupPrefab;
     [SerializeField] private Transform m_LevelPopupParent;
     private int m_LevelJsonFilesLength;
     private LevelPopup m_TempSpawnedLevelPopup;
@@ -25,7 +25,7 @@ public class LevelPopupArea : BaseArea<MainMenuPanel>
                 (Vector3.zero),
                 (Quaternion.identity),
                 (m_LevelPopupParent)
-            ).GetComponent<LevelPopup>();
+            );
 
             _tempLevelFilePath = Constants.LEVEL_PATH + _levelCount;
             _levelTextFile = Resources.Load<TextAsset>(_tempLevelFilePath);

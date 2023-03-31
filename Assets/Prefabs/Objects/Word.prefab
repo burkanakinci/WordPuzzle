@@ -246,7 +246,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 203cbcd73ab522b429579113380ac624, type: 3}
-  m_Color: {r: 0.9433962, g: 0.84510314, b: 0.6541474, a: 1}
+  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -334,5 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfcae3f19be4e84989dc09d1206e98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SelecetableStatusColor: {r: 0.94509804, g: 0.84705883, b: 0.654902, a: 1}
+  m_CannotSelectableStatusColor: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
   m_WordVisual: {fileID: 7367987301564330004}
+  m_WordBGSprite: {fileID: 2049368649}
   m_WordLetterText: {fileID: 1225734358}

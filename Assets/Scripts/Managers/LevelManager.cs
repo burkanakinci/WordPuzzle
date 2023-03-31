@@ -8,6 +8,8 @@ public class LevelManager : CustomBehaviour
 {
     #region Events
     public event Action OnCleanSceneObject;
+    public event Action OnSpawnedWords;
+    public event Action OnSetWordsParents;
     #endregion
     private LevelData m_CurrentLevelData;
     public int CurrentLevelNumber => m_CurrentLevelData.LevelNumber;
@@ -35,6 +37,9 @@ public class LevelManager : CustomBehaviour
 
             m_TempSpawnedWord.SetWordData(m_CurrentLevelData.tiles[_tileCount]);
         }
+
+        OnSpawnedWords?.Invoke();
+        OnSetWordsParents?.Invoke();
     }
 
     #region Getter
