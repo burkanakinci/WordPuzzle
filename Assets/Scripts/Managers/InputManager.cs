@@ -10,9 +10,9 @@ public class InputManager : CustomBehaviour
 
     #endregion
     public int RemainingMovesCount { get; private set; }
-    public override void Initialize(GameManager _gameManager)
+    public override void Initialize()
     {
-        base.Initialize(_gameManager);
+        base.Initialize();
 
     }
 }

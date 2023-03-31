@@ -2,10 +2,9 @@ using UnityEngine;
 
 public abstract class CustomBehaviour : MonoBehaviour
 {
-    public GameManager GameManager { get; private set; }
-    public virtual void Initialize(GameManager _gameManager)
+    public virtual void Initialize()
     {
-        GameManager = _gameManager;
+        
     }
 }
 

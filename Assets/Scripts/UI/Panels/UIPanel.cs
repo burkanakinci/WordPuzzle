@@ -5,7 +5,7 @@ public class UIPanel : CustomBehaviour<UIManager>
     [SerializeField] private CanvasGroup m_CanvasGroup;
     public CanvasGroup CanvasGroup => m_CanvasGroup;
 
-    public override void Initialize(UIManager _uiManager)
+    public override void Initialize(UIManager _uiManager )
     {
         base.Initialize(_uiManager);
     }

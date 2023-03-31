@@ -5,40 +5,37 @@ public class PlayerManager : CustomBehaviour
     #region Fields
     [SerializeField] private Player m_Player;
     #endregion
-    public override void Initialize(GameManager _gameManager)
+    public override void Initialize()
     {
-        base.Initialize(_gameManager);
+        base.Initialize();
         m_Player.Initialize(this);
-
-        GameManager.OnMainMenuEvent += OnMainMenu;
-        GameManager.OnGameStartEvent += OnGameStart;
-        GameManager.OnSuccessEvent += OnSuccess;
-        GameManager.OnFailedEvent += OnFailed;
     }
 
-    #region Events
-    private void OnMainMenu()
+    #region PlayerDataAccess
+    #region Setters
+    public void SetPlayerLevel(int _level)
     {
-        m_Player.PlayerStateMachine.ChangeState(PlayerStates.MainState, true);
+        m_Player.SetLevel(_level);
     }
-    private void OnGameStart()
+    public void AddPlayerNewHighscore(int _level, int _highscore)
     {
-        m_Player.PlayerStateMachine.ChangeState(PlayerStates.GamePlayState);
+        m_Player.AddHighscore(_level, _highscore);
     }
-    private void OnSuccess()
+    #endregion
+
+    #region Getters
+    public int GetPlayerLevel()
     {
-        m_Player.PlayerStateMachine.ChangeState(PlayerStates.SuccessState);
+        return m_Player.PlayerData.PlayerLevel;
     }
-    private void OnFailed()
+    public bool HasPlayerHighscore(int _levelNumber)
     {
-        m_Player.PlayerStateMachine.ChangeState(PlayerStates.FailedState);
+        return m_Player.PlayerData.HighScores.ContainsKey(_levelNumber);
     }
-    private void OnDestroy()
+    public int GetPlayerHighscore(int _levelNumber)
     {
-        GameManager.OnMainMenuEvent -= OnMainMenu;
-        GameManager.OnGameStartEvent -= OnGameStart;
-        GameManager.OnSuccessEvent -= OnSuccess;
-        GameManager.OnFailedEvent -= OnFailed;
+        return m_Player.PlayerData.HighScores[_levelNumber];
     }
+    #endregion
     #endregion
 }

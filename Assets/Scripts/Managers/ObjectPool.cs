@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class ObjectPool : CustomBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class Pool
     {
         public string PrefabTag;
@@ -12,31 +12,31 @@ public class ObjectPool : CustomBehaviour
         public int SpawnedSize = 1;
         public Transform PrefabParent;
     }
-    public List<Pool> pools = new List<Pool>();
-    public Dictionary<string, Queue<IPooledObject>> poolDictionary;
+    [SerializeField] private List<Pool> m_Pools = new List<Pool>();
+    public Dictionary<string, Queue<IPooledObject>> m_poolDictionary;
 
     private IPooledObject m_SpawnOnPool;
     private IPooledObject m_TempSpawned;
 
-    public override void Initialize(GameManager _gameManager)
+    public override void Initialize()
     {
-        base.Initialize(_gameManager);
-        poolDictionary = new Dictionary<string, Queue<IPooledObject>>();
+        base.Initialize();
+        m_poolDictionary = new Dictionary<string, Queue<IPooledObject>>();
 
-        for (int i = 0; i < pools.Count; i++)
+        for (int i = 0; i < m_Pools.Count; i++)
         {
             Queue<IPooledObject> activeOnPool = new Queue<IPooledObject>();
             Queue<IPooledObject> objectsOnPool = new Queue<IPooledObject>();
 
-            for (int j = 0; j < pools[i].SpawnedSize; j++)
+            for (int j = 0; j < m_Pools[i].SpawnedSize; j++)
             {
-                m_TempSpawned = Instantiate(pools[i].PooledPrefab, pools[i].PrefabParent).GetComponent<IPooledObject>();
+                m_TempSpawned = Instantiate(m_Pools[i].PooledPrefab, m_Pools[i].PrefabParent).GetComponent<IPooledObject>();
                 m_TempSpawned.GetGameObject().gameObject.SetActive(false);
-                m_TempSpawned.GetGameObject().Initialize(GameManager);
-                m_TempSpawned.SetPooledTag(pools[i].PrefabTag);
+                m_TempSpawned.GetGameObject().Initialize();
+                m_TempSpawned.SetPooledTag(m_Pools[i].PrefabTag);
                 objectsOnPool.Enqueue(m_TempSpawned);
             }
-            poolDictionary.Add(pools[i].PrefabTag, objectsOnPool);
+            m_poolDictionary.Add(m_Pools[i].PrefabTag, objectsOnPool);
 
         }
     }
@@ -45,24 +45,24 @@ public class ObjectPool : CustomBehaviour
                                     Quaternion _rotation = new Quaternion(),
                                     Transform _parent = null)
     {
-        if (!poolDictionary.ContainsKey(_prefabTag))
+        if (!m_poolDictionary.ContainsKey(_prefabTag))
         {
             return null;
         }
 
-        if (poolDictionary[_prefabTag].Count > 0)
+        if (m_poolDictionary[_prefabTag].Count > 0)
         {
-            m_SpawnOnPool = poolDictionary[_prefabTag].Dequeue();
+            m_SpawnOnPool = m_poolDictionary[_prefabTag].Dequeue();
         }
         else
         {
-            for (int i = pools.Count - 1; i >= 0; i--)
+            for (int i = m_Pools.Count - 1; i >= 0; i--)
             {
-                if (pools[i].PrefabTag == _prefabTag)
+                if (m_Pools[i].PrefabTag == _prefabTag)
                 {
-                    m_SpawnOnPool = Instantiate(pools[i].PooledPrefab, pools[i].PrefabParent).GetComponent<IPooledObject>();
-                    m_SpawnOnPool.GetGameObject().Initialize(GameManager);
-                    m_SpawnOnPool.SetPooledTag(pools[i].PrefabTag);
+                    m_SpawnOnPool = Instantiate(m_Pools[i].PooledPrefab, m_Pools[i].PrefabParent).GetComponent<IPooledObject>();
+                    m_SpawnOnPool.GetGameObject().Initialize();
+                    m_SpawnOnPool.SetPooledTag(m_Pools[i].PrefabTag);
                     break;
                 }
             }
@@ -89,7 +89,7 @@ public class ObjectPool : CustomBehaviour
 
     public void AddObjectPool(string _prefabTag, IPooledObject _pooledObject)
     {
-        if (!poolDictionary[_prefabTag].Contains(_pooledObject))
-            poolDictionary[_prefabTag].Enqueue(_pooledObject);
+        if (!m_poolDictionary[_prefabTag].Contains(_pooledObject))
+            m_poolDictionary[_prefabTag].Enqueue(_pooledObject);
     }
 }

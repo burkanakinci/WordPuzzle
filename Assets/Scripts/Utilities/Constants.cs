@@ -1,18 +1,22 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 
 #region Structs
-public struct PlayerData
+public class PlayerData
 {
     public int PlayerLevel;
+    public Dictionary<int, int> HighScores;
 }
 
-public struct LevelData
+[System.Serializable]
+public class LevelData
 {
     public string title;
     public TileData[] tiles;
-
+    public int LevelNumber;
 }
+
+[System.Serializable]
 public struct TileData
 {
     public int id;
@@ -26,6 +30,8 @@ public struct TileData
 public struct Constants
 {
     public const string PLAYER_DATA = "PlayerSavedData";
+    public const string LEVELS_DIRECTORY = "Levels/";
+    public const string LEVEL_PATH = "Levels/level_";
 }
 public struct DatabaseTables
 {

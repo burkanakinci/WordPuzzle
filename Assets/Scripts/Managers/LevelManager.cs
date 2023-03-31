@@ -6,13 +6,14 @@ using System.Linq;
 
 public class LevelManager : CustomBehaviour
 {
-    #region 
-
-    #endregion
-
-    public override void Initialize(GameManager _gameManager)
+    public override void Initialize()
     {
-        base.Initialize(_gameManager);
+        base.Initialize();
     }
+    public void StartLevel(LevelData _levelData)
+    {
+        Debug.Log(_levelData.title +" : " +_levelData.LevelNumber);
+    }
+
 }
 

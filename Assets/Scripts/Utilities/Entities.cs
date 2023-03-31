@@ -9,8 +9,8 @@ using DG.Tweening;
 public class Entities : CustomBehaviour
 {
 
-    public override void Initialize(GameManager _gameManager)
+    public override void Initialize()
     {
-        base.Initialize(_gameManager);
+        base.Initialize();
     }
 }

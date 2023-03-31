@@ -2,17 +2,19 @@
 using System;
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     #region Fields
     public JsonConverter JsonConverter;
     public PlayerManager PlayerManager;
     public UIManager UIManager;
     public LevelManager LevelManager;
-    public ObjectPool ObjectPool;
-    public Entities Entities;
-    public InputManager InputManager;
+    // public ObjectPool ObjectPool;
+    // public Entities Entities;
+    // public InputManager InputManager;
     #endregion
     #region Actions
     public event Action OnMainMenuEvent;
+    public event Action OnLevelStartEvent;
     public event Action OnGameStartEvent;
     public event Action OnSuccessEvent;
     public event Action OnFailedEvent;
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+        Instance = this;
+
         InitializeGameManager();
     }
     private void Start()
@@ -32,19 +36,23 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGameManager()
     {
-        ObjectPool.Initialize(this);
-        JsonConverter.Initialize(this);
-        PlayerManager.Initialize(this);
-        LevelManager.Initialize(this);
-        Entities.Initialize(this);
-        InputManager.Initialize(this);
-        UIManager.Initialize(this);
+        // ObjectPool.Initialize(this);
+        JsonConverter.Initialize();
+        PlayerManager.Initialize();
+        LevelManager.Initialize();
+        // Entities.Initialize(this);
+        // InputManager.Initialize(this);
+        UIManager.Initialize();
     }
 
     #region Events
     public void OnMainMenu()
     {
         OnMainMenuEvent?.Invoke();
+    }
+    public void OnLevelStart()
+    {
+        OnLevelStartEvent?.Invoke();
     }
     public void OnGameStart()
     {
