@@ -12,9 +12,7 @@ public class MainMenuState : IState
 
     public void Enter()
     {
-        GameManager.Instance.UIManager.GetPanel(UIPanelType.MainMenuPanel).ShowPanel();
-        GameManager.Instance.UIManager.GetPanel(UIPanelType.MainMenuPanel).HideAllArea();
-        GameManager.Instance.UIManager.GetPanel(UIPanelType.MainMenuPanel).ShowArea((int)MainMenuAreas.MainArea);
+        GameManager.Instance.UIManager.OnMainMenu();
     }
     public void Exit()
     {

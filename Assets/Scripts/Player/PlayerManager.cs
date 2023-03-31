@@ -11,7 +11,7 @@ public class PlayerManager : CustomBehaviour
         m_Player.Initialize(this);
 
         GameManager.Instance.OnMainMenuEvent += OnMainMenu;
-        GameManager.Instance.OnGameStartEvent += OnGameStart;
+        GameManager.Instance.OnLevelStartEvent += OnGameStart;
         GameManager.Instance.OnSuccessEvent += OnSuccess;
         GameManager.Instance.OnFailedEvent += OnFailed;
     }
@@ -51,7 +51,7 @@ public class PlayerManager : CustomBehaviour
     }
     private void OnGameStart()
     {
-        m_Player.PlayerStateMachine.ChangeState(PlayerStates.GamePlayState);
+        m_Player.PlayerStateMachine.ChangeState(PlayerStates.GameplayState);
     }
     private void OnSuccess()
     {
@@ -64,7 +64,7 @@ public class PlayerManager : CustomBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.OnMainMenuEvent -= OnMainMenu;
-        GameManager.Instance.OnGameStartEvent -= OnGameStart;
+        GameManager.Instance.OnLevelStartEvent -= OnGameStart;
         GameManager.Instance.OnSuccessEvent -= OnSuccess;
         GameManager.Instance.OnFailedEvent -= OnFailed;
     }

@@ -38,4 +38,17 @@ public class UIManager : CustomBehaviour
         m_CurrentUIPanel = m_UIPanels[(int)_panel];
     }
     #endregion
+
+    #region Events
+    public void OnMainMenu()
+    {
+        GetPanel(UIPanelType.MainMenuPanel).ShowPanel();
+        GetPanel(UIPanelType.MainMenuPanel).HideAllArea();
+        GetPanel(UIPanelType.MainMenuPanel).ShowArea((int)MainMenuAreas.MainArea);
+    }
+    public void OnLEvelStart()
+    {
+        GetPanel(UIPanelType.HudPanel).ShowPanel();
+    }
+    #endregion
 }

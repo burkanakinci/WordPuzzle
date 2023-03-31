@@ -9,13 +9,12 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
     public LevelManager LevelManager;
     public ObjectPool ObjectPool;
-    // public Entities Entities;
+    public Entities Entities;
     // public InputManager InputManager;
     #endregion
     #region Actions
     public event Action OnMainMenuEvent;
     public event Action OnLevelStartEvent;
-    public event Action OnGameStartEvent;
     public event Action OnSuccessEvent;
     public event Action OnFailedEvent;
     #endregion
@@ -38,10 +37,11 @@ public class GameManager : MonoBehaviour
     {
         ObjectPool.Initialize();
         JsonConverter.Initialize();
+        Entities.Initialize();
         PlayerManager.Initialize();
         LevelManager.Initialize();
         UIManager.Initialize();
-        // Entities.Initialize(this);
+
         // InputManager.Initialize(this);
 
     }
@@ -54,10 +54,6 @@ public class GameManager : MonoBehaviour
     public void OnLevelStart()
     {
         OnLevelStartEvent?.Invoke();
-    }
-    public void OnGameStart()
-    {
-        OnGameStartEvent?.Invoke();
     }
     public void OnSuccess()
     {

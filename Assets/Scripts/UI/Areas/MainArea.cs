@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class MainArea : BaseArea<MainMenuPanel>
 {
+    
     [SerializeField] private OpenLevelAreaButton m_OpenLevelAreaButton;
 
     [Header("On Tween Fields")]
@@ -31,7 +32,7 @@ public class MainArea : BaseArea<MainMenuPanel>
         DOTween.Kill(m_LevelsButtonDelayedCallID);
         DOVirtual.DelayedCall((m_LevelsButtonDelayedDuration), () =>
             {
-                m_OpenLevelAreaButton.LevelButtonShowSequence();
+                m_OpenLevelAreaButton.LevelButtonScaleSequence(() => m_OpenLevelAreaButton.EnableLevelStartButton());
             })
             .SetId(m_LevelsButtonDelayedCallID);
     }

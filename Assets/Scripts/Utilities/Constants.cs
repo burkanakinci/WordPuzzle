@@ -46,8 +46,7 @@ public struct UIAnimationStates
 
 public struct PooledObjectTags
 {
-    public const string MATCHABLE = "Matchable";
-    public const string BLAST_PARTICLE = "BlastParticle";
+    public const string WORD = "Word";
 }
 
 #endregion
@@ -68,8 +67,8 @@ public enum UIPanelType
 
 public enum MainMenuAreas
 {
-    MainArea=0,
-    LevelPopupArea=1,
+    MainArea = 0,
+    LevelPopupArea = 1,
 }
 
 public enum HudPanelAreas
@@ -78,7 +77,7 @@ public enum HudPanelAreas
 
 public enum ActiveParents
 {
-
+    ActiveWordParent = 0,
 }
 
 public enum ListOperations
@@ -90,7 +89,7 @@ public enum ListOperations
 public enum PlayerStates
 {
     MainState = 0,
-    GamePlayState = 1,
+    GameplayState = 1,
     SuccessState = 2,
     FailedState = 3,
 }

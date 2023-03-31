@@ -15,6 +15,7 @@ public class OpenLevelAreaButton : UIBaseButton<MainArea>
     private Sequence m_LevelsButtonShowSequence;
     public override void Initialize(MainArea _cachedComponent)
     {
+        
         base.Initialize(_cachedComponent);
         m_LevelButtonScaleTweenID = GetInstanceID() + "m_LevelButtonScaleTweenID";
         m_LevelsButtonScaleSequenceID = GetInstanceID() + "m_LevelsButtonScaleSequenceID";
@@ -22,11 +23,11 @@ public class OpenLevelAreaButton : UIBaseButton<MainArea>
 
     protected override void OnClickAction()
     {
-        LevelButtonScaleTween((Vector3.zero), (m_LevelsButtonGrowthDuration), (Ease.OutExpo), (() =>
+        LevelButtonScaleSequence(() =>
         {
             CachedComponent.CachedComponent.HideAllArea();
             CachedComponent.CachedComponent.ShowArea((int)MainMenuAreas.LevelPopupArea);
-        }));
+        });
     }
     private string m_LevelButtonScaleTweenID;
     private Tween LevelButtonScaleTween(Vector3 _scale, float _duration, Ease ease = Ease.Linear, TweenCallback _onCompleteCallback = null)
@@ -39,7 +40,7 @@ public class OpenLevelAreaButton : UIBaseButton<MainArea>
         .SetId(m_LevelButtonScaleTweenID)
         .OnComplete(() => _onCompleteCallback?.Invoke());
     }
-    public void LevelButtonShowSequence()
+    public void LevelButtonScaleSequence(TweenCallback _onCompleteCallback = null)
     {
         DOTween.Kill(m_LevelsButtonScaleSequenceID);
         m_LevelsButtonShowSequence = DOTween.Sequence().SetId(m_LevelsButtonScaleSequenceID);
@@ -47,7 +48,7 @@ public class OpenLevelAreaButton : UIBaseButton<MainArea>
         m_LevelsButtonShowSequence.Append(LevelButtonScaleTween((Vector3.one), (m_LevelsButtonShrinkageDuration), (Ease.InExpo)));
         m_LevelsButtonShowSequence.AppendCallback(() =>
         {
-            EnableLevelStartButton();
+            _onCompleteCallback?.Invoke();
         });
 
     }

@@ -68,6 +68,14 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Level 1 :'
       objectReference: {fileID: 0}
+    - target: {fileID: 206364385230117815, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 206364385230117815, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4042821933666687522, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_Name
       value: LevelNameText
@@ -183,7 +191,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 206364385230117815, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_text
-      value: 'HighScore : 1453'
+      value: "HighScore : \n1453"
+      objectReference: {fileID: 0}
+    - target: {fileID: 206364385230117815, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 206364385230117815, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4042821933666687522, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_Name
@@ -344,7 +360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5342298958718889538, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 150
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5342298958718889538, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_SizeDelta.y
@@ -380,7 +396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5342298958718889538, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 155
       objectReference: {fileID: 0}
     - target: {fileID: 5342298958718889538, guid: 84e52010d0e979e4b8a57d7c5b34e7de, type: 3}
       propertyPath: m_AnchoredPosition.y
