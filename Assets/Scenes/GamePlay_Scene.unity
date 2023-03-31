@@ -704,6 +704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Button: {fileID: 838066867}
+  m_LevelsButtonGrowthDuration: 0.6
+  m_LevelsButtonShrinkageDuration: 0.4
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,8 +1181,6 @@ MonoBehaviour:
   m_AreaCanvasGroup: {fileID: 1908621929}
   m_OpenLevelAreaButton: {fileID: 838066868}
   m_LevelsButtonDelayedDuration: 1.25
-  m_LevelsButtonGrowthDuration: 0.5
-  m_LevelsButtonShrinkageDuration: 0.4
 --- !u!225 &1908621929
 CanvasGroup:
   m_ObjectHideFlags: 0
