@@ -9,6 +9,11 @@ public class PlayerManager : CustomBehaviour
     {
         base.Initialize();
         m_Player.Initialize(this);
+
+        GameManager.Instance.OnMainMenuEvent += OnMainMenu;
+        GameManager.Instance.OnGameStartEvent += OnGameStart;
+        GameManager.Instance.OnSuccessEvent += OnSuccess;
+        GameManager.Instance.OnFailedEvent += OnFailed;
     }
 
     #region PlayerDataAccess
@@ -37,5 +42,31 @@ public class PlayerManager : CustomBehaviour
         return m_Player.PlayerData.HighScores[_levelNumber];
     }
     #endregion
+    #endregion
+
+    #region Events
+    private void OnMainMenu()
+    {
+        m_Player.PlayerStateMachine.ChangeState(PlayerStates.MainState, true);
+    }
+    private void OnGameStart()
+    {
+        m_Player.PlayerStateMachine.ChangeState(PlayerStates.GamePlayState);
+    }
+    private void OnSuccess()
+    {
+        m_Player.PlayerStateMachine.ChangeState(PlayerStates.SuccessState);
+    }
+    private void OnFailed()
+    {
+        m_Player.PlayerStateMachine.ChangeState(PlayerStates.FailedState);
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnMainMenuEvent -= OnMainMenu;
+        GameManager.Instance.OnGameStartEvent -= OnGameStart;
+        GameManager.Instance.OnSuccessEvent -= OnSuccess;
+        GameManager.Instance.OnFailedEvent -= OnFailed;
+    }
     #endregion
 }

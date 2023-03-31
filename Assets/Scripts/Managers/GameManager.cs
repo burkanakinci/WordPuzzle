@@ -40,9 +40,10 @@ public class GameManager : MonoBehaviour
         JsonConverter.Initialize();
         PlayerManager.Initialize();
         LevelManager.Initialize();
+        UIManager.Initialize();
         // Entities.Initialize(this);
         // InputManager.Initialize(this);
-        UIManager.Initialize();
+
     }
 
     #region Events

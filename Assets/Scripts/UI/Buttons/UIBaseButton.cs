@@ -11,7 +11,10 @@ public abstract class UIBaseButton<T> : CustomBehaviour<T>
     public override void Initialize(T _cachedComponent)
     {
         base.Initialize(_cachedComponent);
+        AddFunctionToButtonListener(OnClickAction);
     }
+
+    protected abstract void OnClickAction();
 
     public void AddFunctionToButtonListener(Action _clickAction)
     {
@@ -27,5 +30,14 @@ public abstract class UIBaseButton<T> : CustomBehaviour<T>
     protected virtual void ButtonClick()
     {
         m_ButtonClickAction?.Invoke();
+    }
+    public virtual void DisableLevelStartButton()
+    {
+        m_Button.enabled = false;
+    }
+
+    public virtual void EnableLevelStartButton()
+    {
+        m_Button.enabled = true;
     }
 }

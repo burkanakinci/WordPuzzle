@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseArea<T> : CustomBehaviour<T>
 {
-    [SerializeField] private CanvasGroup m_AreaCanvasGroup;
+    [SerializeField] protected CanvasGroup m_AreaCanvasGroup;
     public override void Initialize(T _cachedComponent )
     {
         base.Initialize(_cachedComponent);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class MainMenuPanel : UIPanel
 {
-    [SerializeField] private List<BaseArea<MainMenuPanel>> m_MainMenuAreas;
     public override void Initialize(UIManager _uiManager)
     {
         base.Initialize(_uiManager);

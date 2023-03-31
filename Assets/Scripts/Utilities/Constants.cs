@@ -68,6 +68,8 @@ public enum UIPanelType
 
 public enum MainMenuAreas
 {
+    MainArea=0,
+    LevelPopupArea=1,
 }
 
 public enum HudPanelAreas

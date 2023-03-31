@@ -6,7 +6,5 @@ using System;
 public interface IState
 {
     void Enter();
-    void LogicalUpdate();
-    void PhysicalUpdate();
     void Exit();
 }

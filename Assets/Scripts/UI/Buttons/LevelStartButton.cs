@@ -9,18 +9,22 @@ public class LevelStartButton : UIBaseButton<LevelPopup>
     public override void Initialize(LevelPopup _cachedComponent)
     {
         base.Initialize(_cachedComponent);
-        AddFunctionToButtonListener(() => GameManager.Instance.LevelManager.StartLevel(CachedComponent.PopupLevelData));
     }
 
-    public void DisableLevelStartButton()
+    protected override void OnClickAction()
+    {
+        GameManager.Instance.LevelManager.StartLevel(CachedComponent.PopupLevelData);
+    }
+
+    public override void DisableLevelStartButton()
     {
         m_ButtonBG.color = Color.grey;
-        m_Button.enabled = false;
+        base.DisableLevelStartButton();
     }
 
-    public void EnableLevelStartButton()
+    public override void EnableLevelStartButton()
     {
         m_ButtonBG.color = Color.green;
-        m_Button.enabled = true;
+        base.EnableLevelStartButton();
     }
 }
