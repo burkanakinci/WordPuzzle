@@ -71,9 +71,15 @@ public class Word : PooledObject
         }
         else
         {
+            GameManager.Instance.LevelManager.WordManager.AddClickableWordList(this);
             m_WordBGSprite.color = m_SelecetableStatusColor;
             m_WordLetterText.color = m_SelecetableStatusColor;
         }
+    }
+
+    public void ClickedWord()
+    {
+
     }
 
     #region Events

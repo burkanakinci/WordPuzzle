@@ -5,7 +5,7 @@ using UnityEngine;
 public class PooledObject : CustomBehaviour, IPooledObject
 {
     private Transform m_DeactiveParent;
-    protected string m_PooledTag;
+    private string m_PooledTag;
     public void SetPooledTag(string _pooledTag)
     {
         m_PooledTag = _pooledTag;

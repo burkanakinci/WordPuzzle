@@ -16,9 +16,4 @@ public static class Utilities
         canvas.blocksRaycasts = false;
         canvas.interactable = false;
     }
-
-    public static Vector2 RandomPosInsideCircle( float _radius)
-    {
-        return (UnityEngine.Random.insideUnitCircle * _radius);
-    }
 }

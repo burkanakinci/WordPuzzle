@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public LevelManager LevelManager;
     public ObjectPool ObjectPool;
     public Entities Entities;
-    // public InputManager InputManager;
+    public InputManager InputManager;
     #endregion
     #region Actions
     public event Action OnMainMenuEvent;
@@ -41,9 +41,7 @@ public class GameManager : MonoBehaviour
         PlayerManager.Initialize();
         LevelManager.Initialize();
         UIManager.Initialize();
-
-        // InputManager.Initialize(this);
-
+        InputManager.Initialize();
     }
 
     #region Events

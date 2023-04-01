@@ -41,12 +41,12 @@ public struct DatabaseTables
 }
 public struct UIAnimationStates
 {
-    public const string CLICKED_BADGE = "ClickedBadge";
 }
 
 public struct PooledObjectTags
 {
     public const string WORD = "Word";
+    public const string EMPTY_WORD = "EmptyWord";
 }
 
 #endregion
@@ -55,6 +55,7 @@ public struct PooledObjectTags
 public enum ObjectsLayer
 {
     Default = 0,
+    Word = 6,
 }
 
 public enum UIPanelType
@@ -73,11 +74,13 @@ public enum MainMenuAreas
 
 public enum HudPanelAreas
 {
+    HudArea=0,
 }
 
 public enum ActiveParents
 {
     ActiveWordParent = 0,
+    ActiveEmptyWordParent=1,
 }
 
 public enum ListOperations

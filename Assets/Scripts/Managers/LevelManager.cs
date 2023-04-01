@@ -12,10 +12,12 @@ public class LevelManager : CustomBehaviour
     public event Action OnSetWordsParents;
     #endregion
     private LevelData m_CurrentLevelData;
-    public int CurrentLevelNumber => m_CurrentLevelData.LevelNumber;
+    public LevelData CurrentLevelData => m_CurrentLevelData;
+    public WordManager WordManager;
     public override void Initialize()
     {
         base.Initialize();
+        WordManager.Initialize(this);
     }
     public void StartLevel(LevelData _levelData)
     {
@@ -25,6 +27,10 @@ public class LevelManager : CustomBehaviour
     }
     private Word m_TempSpawnedWord;
     private void SpawnLevelObjects()
+    {
+        SpawnLevelWords();
+    }
+    private void SpawnLevelWords()
     {
         for (int _tileCount = 0; _tileCount < m_CurrentLevelData.tiles.Length; _tileCount++)
         {
@@ -40,8 +46,8 @@ public class LevelManager : CustomBehaviour
 
         OnSpawnedWords?.Invoke();
         OnSetWordsParents?.Invoke();
+        WordManager.OnFilledClickableList();
     }
-
     #region Getter
     public TileData GetTile(int _tileId)
     {

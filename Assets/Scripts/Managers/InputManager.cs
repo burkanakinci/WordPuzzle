@@ -6,13 +6,66 @@ using UnityEngine.EventSystems;
 
 public class InputManager : CustomBehaviour
 {
-    #region Actions
-
-    #endregion
-    public int RemainingMovesCount { get; private set; }
+    [SerializeField] private LayerMask m_ClickableLayerMask;
+    private bool m_IsUIOverride;
+    private bool m_CanClickable;
+    public event Action OnClicked;
+    public event Action OnClickedUp;
     public override void Initialize()
     {
         base.Initialize();
+        OnClicked += SetMatchableRay;
+    }
+    public void SetInputCanClickable(bool _canClickable)
+    {
+        m_CanClickable = _canClickable;
+    }
+    private void Update()
+    {
+        UpdateUIOverride();
+
+        if (Input.GetMouseButtonDown(0) && !m_IsUIOverride)
+        {
+            OnClicked?.Invoke();
+        }
+        else if (Input.GetMouseButtonUp(0) && !m_IsUIOverride)
+        {
+            OnClickedUp?.Invoke();
+        }
+    }
+
+
+    public void UpdateUIOverride()
+    {
+        m_IsUIOverride = EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private RaycastHit m_ClickableHit;
+    private Ray m_ClickableRay;
+    private Word m_TempClickedWord;
+    private void SetMatchableRay()
+    {
+        m_ClickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(m_ClickableRay, out m_ClickableHit, Mathf.Infinity, m_ClickableLayerMask))
+        {
+            SetInputCanClickable(false);
+            m_TempClickedWord = m_ClickableHit.collider.gameObject.GetComponent<Word>();
+            m_TempClickedWord.ClickedWord();
+        }
+    }
+
+    #region Events
+
+    private void OnMainMenu()
+    {
 
     }
+    private void OnGameStart()
+    {
+    }
+    private void OnDestroy()
+    {
+    }
+    #endregion
 }

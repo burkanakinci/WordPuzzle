@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class UIPanel : CustomBehaviour<UIManager>
 {
     [SerializeField] private CanvasGroup m_CanvasGroup;
-    
     public CanvasGroup CanvasGroup => m_CanvasGroup;
+
+    public event Action OnLevelStartPanelEvent;
 
     public override void Initialize(UIManager _uiManager)
     {
@@ -40,4 +42,11 @@ public class UIPanel : CustomBehaviour<UIManager>
     public virtual void ShowArea(int _area)
     {
     }
+
+    #region Events
+    public virtual void OnLevelStart()
+    {
+        OnLevelStartPanelEvent?.Invoke();
+    }
+    #endregion
 }

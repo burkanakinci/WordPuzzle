@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 public class HudPanel : UIPanel
 {
-    [SerializeField] protected List<BaseArea<MainMenuPanel>> m_HudPanelAreas;
+    [SerializeField] protected List<BaseArea<HudPanel>> m_HudPanelAreas;
+    
     public override void Initialize(UIManager _uiManager)
     {
         base.Initialize(_uiManager);
+        m_HudPanelAreas.ForEach(_area =>
+        {
+            _area.Initialize(this);
+        });
     }
 
     public override void HideAllArea()

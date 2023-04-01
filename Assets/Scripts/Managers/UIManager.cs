@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIManager : CustomBehaviour
 {
     #region Fields
-    private UIPanel m_CurrentUIPanel;
+    public UIPanel CurrentUIPanel { get; private set; }
     [SerializeField] private List<UIPanel> m_UIPanels;
     #endregion
     public override void Initialize()
@@ -31,11 +31,11 @@ public class UIManager : CustomBehaviour
     }
     public void SetCurrentUIPanel(UIPanel _panel)
     {
-        m_CurrentUIPanel = _panel;
+        CurrentUIPanel = _panel;
     }
     public void SetCurrentUIPanel(UIPanelType _panel)
     {
-        m_CurrentUIPanel = m_UIPanels[(int)_panel];
+        CurrentUIPanel = m_UIPanels[(int)_panel];
     }
     #endregion
 
@@ -46,7 +46,7 @@ public class UIManager : CustomBehaviour
         GetPanel(UIPanelType.MainMenuPanel).HideAllArea();
         GetPanel(UIPanelType.MainMenuPanel).ShowArea((int)MainMenuAreas.MainArea);
     }
-    public void OnLEvelStart()
+    public void OnLevelStart()
     {
         GetPanel(UIPanelType.HudPanel).ShowPanel();
     }

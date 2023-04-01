@@ -13,6 +13,7 @@ public class MainMenuState : IState
     public void Enter()
     {
         GameManager.Instance.UIManager.OnMainMenu();
+        GameManager.Instance.UIManager.CurrentUIPanel.OnLevelStart();
     }
     public void Exit()
     {
