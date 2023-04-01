@@ -15,7 +15,7 @@ public class Entities : CustomBehaviour
     {
         base.Initialize();
         m_WordOnScene = new Dictionary<int, Word>();
-        m_EmptyWordOnScene=new List<EmptyWord>();
+        m_EmptyWordOnScene = new List<EmptyWord>();
     }
 
     #region Getters
@@ -32,11 +32,26 @@ public class Entities : CustomBehaviour
     }
     public EmptyWord GetEmptyWord(int _index)
     {
-        return m_EmptyWordOnScene[_index];
+        if (_index < m_EmptyWordOnScene.Count)
+        {
+            return m_EmptyWordOnScene[_index];
+        }
+        else
+        {
+            return null;
+        }
     }
     public Transform GetActiveParent(ActiveParents _parent)
     {
-        return m_ActiveParents[(int)_parent];
+        if ((int)_parent < m_ActiveParents.Length)
+        {
+            return m_ActiveParents[(int)_parent];
+        }
+        else
+        {
+            return null;
+        }
+
     }
     #endregion
     #region Setters
@@ -78,4 +93,12 @@ public class Entities : CustomBehaviour
         }
     }
     #endregion
+
+    public void SetEmptyWordsIndex()
+    {
+        for (int _emptyCount = 0; _emptyCount < m_EmptyWordOnScene.Count; _emptyCount++)
+        {
+            m_EmptyWordOnScene[_emptyCount].SetEmptyWordIndex(_emptyCount);
+        }
+    }
 }

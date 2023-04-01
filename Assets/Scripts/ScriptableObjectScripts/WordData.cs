@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 
-[CreateAssetMenu(fileName = "EmptyWordData", menuName = "Empty Word Data")]
-public class EmptyWordData : ScriptableObject
+[CreateAssetMenu(fileName = "WordData", menuName = "Word Data")]
+public class WordData : ScriptableObject
 {
 
     #region Datas
@@ -14,6 +14,10 @@ public class EmptyWordData : ScriptableObject
     [SerializeField] private Ease m_SpawnTweenEase = Ease.Linear;
     [SerializeField] private float m_RightSpawnDelay;
 
+
+    [Header("Click Tween Values")]
+    [SerializeField] private float m_ClickTweenDuration;
+    [SerializeField] private Ease m_ClickTweenEase = Ease.Linear;
     #endregion
 
 
@@ -23,6 +27,11 @@ public class EmptyWordData : ScriptableObject
     public float SpawnTweenDuration => m_SpawnTweenDuration;
     public Ease SpawnTweenEase => m_SpawnTweenEase;
     public float RightSpawnDelay => m_RightSpawnDelay;
+    #endregion
+
+    #region ClickTweenValues
+    public float ClickTweenDuration => m_ClickTweenDuration;
+    public Ease ClickTweenEase => m_ClickTweenEase;
     #endregion
 
     #endregion

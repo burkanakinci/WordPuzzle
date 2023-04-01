@@ -6,22 +6,29 @@ using System;
 public class WordManager : CustomBehaviour<LevelManager>
 {
     private List<Word> m_ClickableWords;
-    #region Events
-    public event Action OnFilledClickableWordsEvent;
-    #endregion 
+    private List<Word> m_ClickedWords;
+
+    #region EcternalAccess
+    public int ClickedCount => m_ClickedWords.Count;
+    #endregion
     public override void Initialize(LevelManager _levelManager)
     {
         base.Initialize(_levelManager);
         m_ClickableWords = new List<Word>();
-        OnFilledClickableWordsEvent += SpawnEmptyWord;
+        m_ClickedWords = new List<Word>();
+
     }
     public void AddClickableWordList(Word _clickable)
     {
         m_ClickableWords.Add(_clickable);
     }
+    public void AddClickedWordList(Word _clicked)
+    {
+        m_ClickedWords.Add(_clicked);
+    }
 
     private Vector3 m_TempEmptyWordSpawnPos;
-    private void SpawnEmptyWord()
+    public void SpawnEmptyWord()
     {
         m_TempEmptyWordSpawnPos = (m_ClickableWords.Count % 2 == 0) ? (Vector3.right * 2.0f) : (Vector3.zero);
         for (int _emptyWordCount = 0; _emptyWordCount < m_ClickableWords.Count; _emptyWordCount++)
@@ -41,12 +48,8 @@ public class WordManager : CustomBehaviour<LevelManager>
                 (Quaternion.identity),
                 (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveEmptyWordParent)));
         }
-    }
 
-    #region Events
-    public void OnFilledClickableList()
-    {
-        OnFilledClickableWordsEvent?.Invoke();
+        GameManager.Instance.Entities.SetEmptyWordsIndex();
+        GameManager.Instance.Entities.GetEmptyWord(0).EmptyWordSpawnSequence();
     }
-    #endregion
 }

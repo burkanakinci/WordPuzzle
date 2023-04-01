@@ -244,7 +244,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 203cbcd73ab522b429579113380ac624, type: 3}
   m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_FlipX: 0
@@ -353,3 +353,4 @@ MonoBehaviour:
   m_WordVisual: {fileID: 7367987301564330004}
   m_WordBGSprite: {fileID: 2049368649}
   m_WordLetterText: {fileID: 1225734358}
+  m_WordData: {fileID: 11400000, guid: c2e87af1d22967a40ad67c62a954f8cf, type: 2}

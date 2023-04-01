@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Word : PooledObject
 {
@@ -15,15 +16,17 @@ public class Word : PooledObject
     [SerializeField] private Transform m_WordVisual;
     [SerializeField] private SpriteRenderer m_WordBGSprite;
     [SerializeField] private TextMeshPro m_WordLetterText;
+    [SerializeField] private WordData m_WordData;
 
 
     private List<Word> m_WordParents;
     private TileData m_CurrentTile;
-    private char m_WordLetter;
+    public char WordLetter { get; private set; }
     public override void Initialize()
     {
         base.Initialize();
         m_WordParents = new List<Word>();
+        m_WordClickSequenceID = GetInstanceID() + "m_WordClickSequenceID";
     }
     public override void OnObjectSpawn()
     {
@@ -43,8 +46,8 @@ public class Word : PooledObject
     {
         m_CurrentTile = _tile;
 
-        m_WordLetter = m_CurrentTile.character.ToUpper()[0];
-        m_WordLetterText.text = m_WordLetter.ToString();
+        WordLetter = m_CurrentTile.character.ToUpper()[0];
+        m_WordLetterText.text = WordLetter.ToString();
 
         GameManager.Instance.Entities.ManageWordOnSceneList(m_CurrentTile.id, this, ListOperations.Adding);
     }
@@ -79,6 +82,23 @@ public class Word : PooledObject
 
     public void ClickedWord()
     {
+        ClickSequence();
+    }
+
+    private string m_WordClickSequenceID;
+    private Sequence m_WordClickSequence;
+    private void ClickSequence()
+    {
+        DOTween.Kill(m_WordClickSequenceID);
+        m_WordClickSequence = DOTween.Sequence().SetId(m_WordClickSequenceID);
+        m_WordClickSequence.Append(transform.DOMove(GameManager.Instance.Entities.GetEmptyWord(GameManager.Instance.LevelManager.WordManager.ClickedCount).transform.position, m_WordData.ClickTweenDuration));
+        m_WordClickSequence.Join(transform.DOScale((Vector3.one * (2.0f / 3.0f)), m_WordData.ClickTweenDuration));
+        m_WordClickSequence.AppendCallback(() =>
+        {
+            GameManager.Instance.LevelManager.WordManager.AddClickedWordList(this);
+            GameManager.Instance.InputManager.SetInputCanClickable(true);
+        });
+
 
     }
 

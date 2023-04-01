@@ -46,7 +46,7 @@ public class LevelManager : CustomBehaviour
 
         OnSpawnedWords?.Invoke();
         OnSetWordsParents?.Invoke();
-        WordManager.OnFilledClickableList();
+        WordManager.SpawnEmptyWord();
     }
     #region Getter
     public TileData GetTile(int _tileId)
