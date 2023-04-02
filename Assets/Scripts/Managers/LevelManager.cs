@@ -8,8 +8,8 @@ public class LevelManager : CustomBehaviour
 {
     #region Events
     public event Action OnCleanSceneObject;
-    public event Action OnSpawnedWords;
-    public event Action OnSetWordsParents;
+    public event Action OnSpawnedLetters;
+    public event Action OnSetLettersParents;
     #endregion
     private LevelData m_CurrentLevelData;
     public LevelData CurrentLevelData => m_CurrentLevelData;
@@ -25,28 +25,28 @@ public class LevelManager : CustomBehaviour
 
         GameManager.Instance.OnLevelStart();
     }
-    private Word m_TempSpawnedWord;
+    private Letter m_TempSpawnedLetter;
     private void SpawnLevelObjects()
     {
-        SpawnLevelWords();
+        SpawnLevelLetters();
     }
-    private void SpawnLevelWords()
+    private void SpawnLevelLetters()
     {
         for (int _tileCount = 0; _tileCount < m_CurrentLevelData.tiles.Length; _tileCount++)
         {
-            m_TempSpawnedWord = GameManager.Instance.ObjectPool.SpawnFromPool(
-                (PooledObjectTags.WORD),
+            m_TempSpawnedLetter = GameManager.Instance.ObjectPool.SpawnFromPool(
+                (PooledObjectTags.LETTER),
                 (m_CurrentLevelData.tiles[_tileCount].position),
                 (Quaternion.identity),
-                (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveWordParent))
-            ).GetGameObject().GetComponent<Word>();
+                (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveLetterParent))
+            ).GetGameObject().GetComponent<Letter>();
 
-            m_TempSpawnedWord.SetWordData(m_CurrentLevelData.tiles[_tileCount]);
+            m_TempSpawnedLetter.SetLetterData(m_CurrentLevelData.tiles[_tileCount]);
         }
 
-        OnSpawnedWords?.Invoke();
-        OnSetWordsParents?.Invoke();
-        WordManager.SpawnEmptyWord();
+        OnSpawnedLetters?.Invoke();
+        OnSetLettersParents?.Invoke();
+        WordManager.SpawnEmptyLetter();
     }
     #region Getter
     public TileData GetTile(int _tileId)

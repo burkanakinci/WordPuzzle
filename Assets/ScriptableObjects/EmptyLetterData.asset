@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b451d365d9e99624b8f79107e57adb70, type: 3}
-  m_Name: WordData
+  m_Script: {fileID: 11500000, guid: 9480a6b92acc5494fb99caecf2f91623, type: 3}
+  m_Name: EmptyLetterData
   m_EditorClassIdentifier: 
-  m_SpawnTweenDuration: 0
-  m_SpawnTweenEase: 1
-  m_RightSpawnDelay: 0
-  m_ClickTweenDuration: 1
-  m_ClickTweenEase: 17
+  m_SpawnTweenDuration: 0.5
+  m_SpawnTweenEase: 17
+  m_RightSpawnDelay: 0.25

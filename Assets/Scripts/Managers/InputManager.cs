@@ -42,7 +42,7 @@ public class InputManager : CustomBehaviour
 
     private RaycastHit m_ClickableHit;
     private Ray m_ClickableRay;
-    private Word m_TempClickedWord;
+    private Letter m_TempClickedLetter;
     private void SetMatchableRay()
     {
         m_ClickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -50,8 +50,8 @@ public class InputManager : CustomBehaviour
         if (Physics.Raycast(m_ClickableRay, out m_ClickableHit, Mathf.Infinity, m_ClickableLayerMask))
         {
             SetInputCanClickable(false);
-            m_TempClickedWord = m_ClickableHit.collider.gameObject.GetComponent<Word>();
-            m_TempClickedWord.ClickedWord();
+            m_TempClickedLetter = m_ClickableHit.collider.gameObject.GetComponent<Letter>();
+            m_TempClickedLetter.ClickedLetter();
         }
     }
 

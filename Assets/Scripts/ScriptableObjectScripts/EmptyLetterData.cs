@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 
-[CreateAssetMenu(fileName = "EmptyWordData", menuName = "Empty Word Data")]
-public class EmptyWordData : ScriptableObject
+[CreateAssetMenu(fileName = "EmptyLetterData", menuName = "Empty Letter Data")]
+public class EmptyLetterData : ScriptableObject
 {
 
     #region Datas

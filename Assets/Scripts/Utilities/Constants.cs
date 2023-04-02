@@ -33,20 +33,11 @@ public struct Constants
     public const string LEVELS_DIRECTORY = "Levels/";
     public const string LEVEL_PATH = "Levels/level_";
 }
-public struct DatabaseTables
-{
-    public const string USER = "Users";
-    public const string TEAM = "Teams";
-    public const string MESSAGE = "Messages";
-}
-public struct UIAnimationStates
-{
-}
 
 public struct PooledObjectTags
 {
-    public const string WORD = "Word";
-    public const string EMPTY_WORD = "EmptyWord";
+    public const string LETTER = "Letter";
+    public const string EMPTY_LETTER = "EmptyLetter";
 }
 
 #endregion
@@ -55,7 +46,7 @@ public struct PooledObjectTags
 public enum ObjectsLayer
 {
     Default = 0,
-    Word = 6,
+    Letter = 6,
 }
 
 public enum UIPanelType
@@ -79,8 +70,8 @@ public enum HudPanelAreas
 
 public enum ActiveParents
 {
-    ActiveWordParent = 0,
-    ActiveEmptyWordParent=1,
+    ActiveLetterParent = 0,
+    ActiveEmptyLetterParent=1,
 }
 
 public enum ListOperations

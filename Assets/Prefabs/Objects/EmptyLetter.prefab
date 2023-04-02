@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2820581842812279236}
   - component: {fileID: 3048318275465525100}
   m_Layer: 6
-  m_Name: EmptyWord
+  m_Name: EmptyLetter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VisualParent: {fileID: 2820581842239003426}
-  m_EmptyWordData: {fileID: 11400000, guid: 3701867a1a7c2f74f965669c48ff0890, type: 2}
+  m_EmptyLetterData: {fileID: 11400000, guid: 312cb525805426e4ebd96950a19851ba, type: 2}
 --- !u!1 &4712138862906886513
 GameObject:
   m_ObjectHideFlags: 0

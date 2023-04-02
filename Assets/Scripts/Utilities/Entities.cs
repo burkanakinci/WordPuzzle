@@ -8,33 +8,38 @@ using DG.Tweening;
 
 public class Entities : CustomBehaviour
 {
-    private Dictionary<int, Word> m_WordOnScene;
-    private List<EmptyWord> m_EmptyWordOnScene;
+    private Dictionary<int, Letter> m_LetterOnScene;
+    private List<EmptyLetter> m_EmptyLetterOnScene;
     [SerializeField] private Transform[] m_ActiveParents;
+
+    #region EcternalAccess
+    public int LetterOnSceneCount => m_LetterOnScene.Count;
+    public int EmptyLetterOnSceneCount => m_EmptyLetterOnScene.Count;
+    #endregion
     public override void Initialize()
     {
         base.Initialize();
-        m_WordOnScene = new Dictionary<int, Word>();
-        m_EmptyWordOnScene = new List<EmptyWord>();
+        m_LetterOnScene = new Dictionary<int, Letter>();
+        m_EmptyLetterOnScene = new List<EmptyLetter>();
     }
 
     #region Getters
-    public Word GetWordByID(int _wordID)
+    public Letter GetLetterByID(int _letterID)
     {
-        if (m_WordOnScene.ContainsKey(_wordID))
+        if (m_LetterOnScene.ContainsKey(_letterID))
         {
-            return m_WordOnScene[_wordID];
+            return m_LetterOnScene[_letterID];
         }
         else
         {
             return null;
         }
     }
-    public EmptyWord GetEmptyWord(int _index)
+    public EmptyLetter GetEmptyLetter(int _index)
     {
-        if (_index < m_EmptyWordOnScene.Count)
+        if (_index < m_EmptyLetterOnScene.Count)
         {
-            return m_EmptyWordOnScene[_index];
+            return m_EmptyLetterOnScene[_index];
         }
         else
         {
@@ -55,50 +60,50 @@ public class Entities : CustomBehaviour
     }
     #endregion
     #region Setters
-    public void ManageWordOnSceneList(int _wordID, Word _word, ListOperations _operation)
+    public void ManageLetterOnScene(int _letterID, Letter _letter, ListOperations _operation)
     {
         switch (_operation)
         {
             case (ListOperations.Adding):
-                if (!m_WordOnScene.ContainsKey(_wordID))
+                if (!m_LetterOnScene.ContainsKey(_letterID))
                 {
-                    m_WordOnScene.Add(_wordID, _word);
+                    m_LetterOnScene.Add(_letterID, _letter);
                 }
                 break;
             case (ListOperations.Substraction):
-                if (m_WordOnScene.ContainsKey(_wordID))
+                if (m_LetterOnScene.ContainsKey(_letterID))
                 {
-                    m_WordOnScene.Remove(_wordID);
+                    m_LetterOnScene.Remove(_letterID);
                 }
                 break;
         }
     }
-    public void ManageEmptyWordList(EmptyWord _emptyWord, ListOperations _operation)
+    public void ManageEmptyLetterOnScene(EmptyLetter _emptyLetter, ListOperations _operation)
     {
         switch (_operation)
         {
             case (ListOperations.Adding):
-                if (!m_EmptyWordOnScene.Contains(_emptyWord))
+                if (!m_EmptyLetterOnScene.Contains(_emptyLetter))
                 {
-                    m_EmptyWordOnScene.Add(_emptyWord);
-                    m_EmptyWordOnScene = m_EmptyWordOnScene.OrderBy(_empty => _empty.transform.position.x).ToList();
+                    m_EmptyLetterOnScene.Add(_emptyLetter);
+                    m_EmptyLetterOnScene = m_EmptyLetterOnScene.OrderBy(_empty => _empty.transform.position.x).ToList();
                 }
                 break;
             case (ListOperations.Substraction):
-                if (m_EmptyWordOnScene.Contains(_emptyWord))
+                if (m_EmptyLetterOnScene.Contains(_emptyLetter))
                 {
-                    m_EmptyWordOnScene.Remove(_emptyWord);
+                    m_EmptyLetterOnScene.Remove(_emptyLetter);
                 }
                 break;
         }
     }
     #endregion
 
-    public void SetEmptyWordsIndex()
+    public void SetEmptyLetterIndexByEntities()
     {
-        for (int _emptyCount = 0; _emptyCount < m_EmptyWordOnScene.Count; _emptyCount++)
+        for (int _emptyCount = 0; _emptyCount < m_EmptyLetterOnScene.Count; _emptyCount++)
         {
-            m_EmptyWordOnScene[_emptyCount].SetEmptyWordIndex(_emptyCount);
+            m_EmptyLetterOnScene[_emptyCount].SetEmptyLetterIndex(_emptyCount);
         }
     }
 }

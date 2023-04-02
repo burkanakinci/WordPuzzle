@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 2366914911645243946}
   - component: {fileID: 477477213523991096}
   m_Layer: 6
-  m_Name: Word
+  m_Name: Letter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SelecetableStatusColor: {r: 0.94509804, g: 0.84705883, b: 0.654902, a: 1}
   m_CannotSelectableStatusColor: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
-  m_WordVisual: {fileID: 7367987301564330004}
-  m_WordBGSprite: {fileID: 2049368649}
-  m_WordLetterText: {fileID: 1225734358}
-  m_WordData: {fileID: 11400000, guid: c2e87af1d22967a40ad67c62a954f8cf, type: 2}
+  m_LetterVisual: {fileID: 7367987301564330004}
+  m_LetterBGSprite: {fileID: 2049368649}
+  m_LetterText: {fileID: 1225734358}
+  m_LetterData: {fileID: 11400000, guid: 8bf572aceaa823f45b1eef26b7210e86, type: 2}

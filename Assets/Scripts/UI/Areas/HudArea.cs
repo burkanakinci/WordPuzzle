@@ -9,6 +9,10 @@ public class HudArea : BaseArea<HudPanel>
     [SerializeField] private TextMeshProUGUI m_LevelNumberText;
     [SerializeField] private TextMeshProUGUI m_LevelTitleText;
 
+
+    [Header("Hud Buttons")]
+    [SerializeField] private CheckWordButton m_CheckWordButton;
+
     public override void Initialize(HudPanel _cachedComponent)
     {
         base.Initialize(_cachedComponent);
