@@ -17,11 +17,11 @@ public class PooledObject : CustomBehaviour, IPooledObject
     }
     public virtual void OnObjectSpawn()
     {
-        GameManager.Instance.LevelManager.OnCleanSceneObject += OnObjectDeactive;
+        GameManager.Instance.LevelManager.OnCleanSceneObjectEvent += OnObjectDeactive;
     }
     public virtual void OnObjectDeactive()
     {
-        GameManager.Instance.LevelManager.OnCleanSceneObject -= OnObjectDeactive;
+        GameManager.Instance.LevelManager.OnCleanSceneObjectEvent -= OnObjectDeactive;
         GameManager.Instance.ObjectPool.AddObjectPool(m_PooledTag, this);
         this.transform.SetParent(m_DeactiveParent);
         this.gameObject.SetActive(false);

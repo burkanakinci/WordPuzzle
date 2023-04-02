@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class EmptyLetter : PooledObject
 {
+    [SerializeField] private TextMeshPro m_EmptyLetterText;
     [SerializeField] private Transform m_VisualParent;
     [SerializeField] private EmptyLetterData m_EmptyLetterData;
     private int m_EmptyLetterIndex;
+
+    public Letter LetterOnEmptyLetter { get; private set; }
     public override void Initialize()
     {
         base.Initialize();
@@ -16,12 +20,15 @@ public class EmptyLetter : PooledObject
     public override void OnObjectSpawn()
     {
         GameManager.Instance.Entities.ManageEmptyLetterOnScene(this, ListOperations.Adding);
+        GameManager.Instance.LevelManager.WordManager.OnSubmitWord += OnSubmitWord;
         m_VisualParent.localScale = Vector3.zero;
         base.OnObjectSpawn();
     }
     public override void OnObjectDeactive()
     {
         KillAllTween();
+        m_EmptyLetterText.text = "?";
+        GameManager.Instance.LevelManager.WordManager.OnSubmitWord -= OnSubmitWord;
         GameManager.Instance.Entities.ManageEmptyLetterOnScene(this, ListOperations.Substraction);
         base.OnObjectDeactive();
     }
@@ -42,9 +49,9 @@ public class EmptyLetter : PooledObject
         m_EmptyLetterSequence.InsertCallback(m_EmptyLetterData.RightSpawnDelay,
         () =>
         {
-            if (GameManager.Instance.Entities.GetEmptyLetter(m_EmptyLetterIndex + 1) != null)
+            if (GameManager.Instance.Entities.GetEmptyLetterByIndex(m_EmptyLetterIndex + 1) != null)
             {
-                GameManager.Instance.Entities.GetEmptyLetter(m_EmptyLetterIndex + 1).EmptyLetterSpawnSequence();
+                GameManager.Instance.Entities.GetEmptyLetterByIndex(m_EmptyLetterIndex + 1).EmptyLetterSpawnSequence();
             }
         });
     }
@@ -53,4 +60,37 @@ public class EmptyLetter : PooledObject
     {
         DOTween.Kill(m_EmptyLetterSpawnSequenceID);
     }
+
+    public void ManageLetterOnEmptyLetter(Letter _letter, ListOperations _operation)
+    {
+        switch (_operation)
+        {
+            case (ListOperations.Adding):
+                LetterOnEmptyLetter = _letter;
+                break;
+            case (ListOperations.Substraction):
+                LetterOnEmptyLetter = null;
+                break;
+        }
+    }
+
+    #region Events
+    private void OnSubmitWord(bool _isCorrect)
+    {
+        if (_isCorrect)
+        {
+            LetterOnEmptyLetter.CorrectWordSequence(ref m_EmptyLetterText);
+        }
+        else
+        {
+
+        }
+    }
+
+    private void OnDestroy()
+    {
+        KillAllTween();
+        GameManager.Instance.LevelManager.WordManager.OnSubmitWord -= OnSubmitWord;
+    }
+    #endregion
 }

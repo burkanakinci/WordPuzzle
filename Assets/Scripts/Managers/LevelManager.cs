@@ -7,9 +7,9 @@ using System.Linq;
 public class LevelManager : CustomBehaviour
 {
     #region Events
-    public event Action OnCleanSceneObject;
-    public event Action OnSpawnedLetters;
-    public event Action OnSetLettersParents;
+    public event Action OnCleanSceneObjectEvent;
+    public event Action OnSpawnedLettersEvent;
+    public event Action OnCompletedLetterParentsEvent;
     #endregion
     private LevelData m_CurrentLevelData;
     public LevelData CurrentLevelData => m_CurrentLevelData;
@@ -43,10 +43,6 @@ public class LevelManager : CustomBehaviour
 
             m_TempSpawnedLetter.SetLetterData(m_CurrentLevelData.tiles[_tileCount]);
         }
-
-        OnSpawnedLetters?.Invoke();
-        OnSetLettersParents?.Invoke();
-        WordManager.SpawnEmptyLetter();
     }
     #region Getter
     public TileData GetTile(int _tileId)
@@ -64,10 +60,12 @@ public class LevelManager : CustomBehaviour
     public void OnLevelStart()
     {
         SpawnLevelObjects();
+        OnSpawnedLettersEvent?.Invoke();
+        OnCompletedLetterParentsEvent?.Invoke();
     }
     public void OnExitGameplay()
     {
-        OnCleanSceneObject?.Invoke();
+        OnCleanSceneObjectEvent?.Invoke();
     }
     #endregion
 }

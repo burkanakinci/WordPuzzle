@@ -19,6 +19,8 @@ public class HudArea : BaseArea<HudPanel>
 
         CachedComponent.OnLevelStartPanelEvent += SetLevelNumberText;
         CachedComponent.OnLevelStartPanelEvent += SetLevelTitleText;
+
+        m_CheckWordButton.Initialize(this);
     }
 
 

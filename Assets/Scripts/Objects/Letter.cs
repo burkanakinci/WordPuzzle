@@ -27,18 +27,21 @@ public class Letter : PooledObject
         base.Initialize();
         m_LetterParents = new List<Letter>();
         m_LetterClickSequenceID = GetInstanceID() + "m_WordClickSequenceID";
+        m_CorrectWordSequenceID = GetInstanceID() + "m_CorrectWordSequenceID";
     }
     public override void OnObjectSpawn()
     {
-        GameManager.Instance.LevelManager.OnSpawnedLetters += OnSpawnedLetters;
-        GameManager.Instance.LevelManager.OnSetLettersParents += OnSetLetterParents;
+        m_LetterVisual.localScale = Vector3.one;
+        GameManager.Instance.LevelManager.OnSpawnedLettersEvent += OnSpawnedLetters;
+        GameManager.Instance.LevelManager.OnCompletedLetterParentsEvent += OnCompletedManageParents;
         base.OnObjectSpawn();
     }
     public override void OnObjectDeactive()
     {
+        KillAllTween();
         GameManager.Instance.Entities.ManageLetterOnScene(m_CurrentTile.id, this, ListOperations.Substraction);
-        GameManager.Instance.LevelManager.OnSpawnedLetters -= OnSpawnedLetters;
-        GameManager.Instance.LevelManager.OnSetLettersParents -= OnSetLetterParents;
+        GameManager.Instance.LevelManager.OnSpawnedLettersEvent -= OnSpawnedLetters;
+        GameManager.Instance.LevelManager.OnCompletedLetterParentsEvent -= OnCompletedManageParents;
         m_LetterParents.Clear();
         base.OnObjectDeactive();
     }
@@ -52,31 +55,36 @@ public class Letter : PooledObject
         GameManager.Instance.Entities.ManageLetterOnScene(m_CurrentTile.id, this, ListOperations.Adding);
     }
 
-    public void AddParentList(Letter _letter)
+    public void ManageParentList(Letter _letter, ListOperations _opeation)
     {
-        if (!m_LetterParents.Contains(_letter))
-            m_LetterParents.Add(_letter);
-    }
-
-    private void AddLetterChildrenList()
-    {
-        for (int _childCount = 0; _childCount < m_CurrentTile.children.Length; _childCount++)
+        switch (_opeation)
         {
-            GameManager.Instance.Entities.GetLetterByID(m_CurrentTile.children[_childCount]).AddParentList(this);
+            case (ListOperations.Adding):
+                if (!m_LetterParents.Contains(_letter))
+                    m_LetterParents.Add(_letter);
+                break;
+            case (ListOperations.Substraction):
+                if (m_LetterParents.Contains(_letter))
+                    m_LetterParents.Remove(_letter);
+                break;
         }
     }
-    private void SetLetterSelectableStatus()
+    public void SetLetterSelectableStatus()
     {
         if (m_LetterParents.Count > 0)
         {
+            m_LetterBGSprite.sortingOrder = (int)SpriteOrderInLayer.LetterSpriteDeactive;
+            m_LetterText.sortingOrder = (int)SpriteOrderInLayer.LetterTextDeactive;
             m_LetterBGSprite.color = m_CannotSelectableStatusColor;
             m_LetterText.color = m_CannotSelectableStatusColor;
         }
         else
         {
-            GameManager.Instance.LevelManager.WordManager.AddClickableLetterList(this);
+            m_LetterBGSprite.sortingOrder = (int)SpriteOrderInLayer.LetterSpriteActive;
+            m_LetterText.sortingOrder = (int)SpriteOrderInLayer.LetterTextActive;
             m_LetterBGSprite.color = m_SelecetableStatusColor;
             m_LetterText.color = m_SelecetableStatusColor;
+            GameManager.Instance.LevelManager.WordManager.AddClickableLetterList(this);
         }
     }
 
@@ -85,34 +93,73 @@ public class Letter : PooledObject
         ClickSequence();
     }
 
+    private EmptyLetter m_EmptyLetterOnClicked;
     private string m_LetterClickSequenceID;
     private Sequence m_LetterClickSequence;
     private void ClickSequence()
     {
         DOTween.Kill(m_LetterClickSequenceID);
         m_LetterClickSequence = DOTween.Sequence().SetId(m_LetterClickSequenceID);
-        m_LetterClickSequence.Append(transform.DOMove(GameManager.Instance.Entities.GetEmptyLetter(GameManager.Instance.LevelManager.WordManager.ClickedCount).transform.position, m_LetterData.ClickTweenDuration));
+        m_EmptyLetterOnClicked = GameManager.Instance.Entities.GetFirstEmptyLetter();
+        m_EmptyLetterOnClicked.ManageLetterOnEmptyLetter(this, ListOperations.Adding);
+        m_LetterClickSequence.Append(transform.DOMove(m_EmptyLetterOnClicked.transform.position, m_LetterData.ClickTweenDuration));
         m_LetterClickSequence.Join(transform.DOScale((Vector3.one * (2.0f / 3.0f)), m_LetterData.ClickTweenDuration));
         m_LetterClickSequence.AppendCallback(() =>
         {
-            GameManager.Instance.LevelManager.WordManager.AddClickedLetterList(this);
+            GameManager.Instance.LevelManager.WordManager.ManageClickedLetterList(this, ListOperations.Adding);
             GameManager.Instance.InputManager.SetInputCanClickable(true);
         });
+    }
+
+    private void ManageChildsParent(ListOperations _operation)
+    {
+        for (int _childCount = 0; _childCount < m_CurrentTile.children.Length; _childCount++)
+        {
+            GameManager.Instance.Entities.GetLetterByID(m_CurrentTile.children[_childCount]).ManageParentList(this, _operation);
+        }
+    }
+
+    private string m_CorrectWordSequenceID;
+    private Sequence m_CorrectWordSequence;
+    public void CorrectWordSequence(ref TextMeshPro _emptyText)
+    {
+        _emptyText.text = LetterChar.ToString();
+        KillAllTween();
+        m_CorrectWordSequence = DOTween.Sequence().SetId(m_CorrectWordSequenceID);
+        m_CorrectWordSequence.Append(m_LetterVisual.DOScale(m_LetterData.CorrectWordScaleUpValue, m_LetterData.CorrectWordScaleUpDuration).SetEase(m_LetterData.CorrectWordScaleUpEase));
+        m_CorrectWordSequence.Append(m_LetterVisual.DOScale(Vector3.zero, m_LetterData.CorrectWordScaleDownDuration).SetEase(m_LetterData.CorrectWordScaleDownEase));
+        m_CorrectWordSequence.AppendCallback(() =>
+        {
+            Debug.Log("asdasdasd");
+            GameManager.Instance.ObjectPool.SpawnFromPool(
+                (PooledObjectTags.CORRECT_LETTER_VFX),
+                (transform.position),
+                (Quaternion.identity),
+                (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveVFXParent))
+            );
+        });
+    }
+
+    private void KillAllTween()
+    {
+        DOTween.Kill(m_CorrectWordSequenceID);
+        DOTween.Kill(m_LetterClickSequenceID);
     }
 
     #region Events
     private void OnSpawnedLetters()
     {
-        AddLetterChildrenList();
+        ManageChildsParent(ListOperations.Adding);
     }
-    private void OnSetLetterParents()
+    private void OnCompletedManageParents()
     {
         SetLetterSelectableStatus();
     }
     private void OnDestroy()
     {
-        GameManager.Instance.LevelManager.OnSpawnedLetters -= OnSpawnedLetters;
-        GameManager.Instance.LevelManager.OnSetLettersParents -= OnSetLetterParents;
+        KillAllTween();
+        GameManager.Instance.LevelManager.OnSpawnedLettersEvent -= OnSpawnedLetters;
+        GameManager.Instance.LevelManager.OnCompletedLetterParentsEvent -= OnCompletedManageParents;
     }
     #endregion
 }

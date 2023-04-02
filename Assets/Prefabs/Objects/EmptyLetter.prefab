@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db3f6cc3ec79ee41903d7e2efed0eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_EmptyLetterText: {fileID: 9051142008333192925}
   m_VisualParent: {fileID: 2820581842239003426}
   m_EmptyLetterData: {fileID: 11400000, guid: 312cb525805426e4ebd96950a19851ba, type: 2}
 --- !u!1 &4712138862906886513

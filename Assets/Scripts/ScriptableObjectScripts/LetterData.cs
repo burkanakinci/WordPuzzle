@@ -17,6 +17,13 @@ public class LetterData : ScriptableObject
     [Header("Click Tween Values")]
     [SerializeField] private float m_ClickTweenDuration;
     [SerializeField] private Ease m_ClickTweenEase = Ease.Linear;
+
+    [Header("Correct Word Tween Values")]
+    [SerializeField] private float m_CorrectWordScaleUpDuration;
+    [SerializeField] private Vector3 m_CorrectWordScaleUpValue;
+    [SerializeField] private Ease m_CorrectWordScaleUpEase = Ease.Linear;
+    [SerializeField] private float m_CorrectWordScaleDownDuration;
+    [SerializeField] private Ease m_CorrectWordScaleDownEase = Ease.Linear;
     #endregion
 
 
@@ -30,6 +37,14 @@ public class LetterData : ScriptableObject
     #region ClickTweenValues
     public float ClickTweenDuration => m_ClickTweenDuration;
     public Ease ClickTweenEase => m_ClickTweenEase;
+    #endregion
+
+    #region CorrectWordTweenValues
+    public float CorrectWordScaleUpDuration => m_CorrectWordScaleUpDuration;
+    public Vector3 CorrectWordScaleUpValue => m_CorrectWordScaleUpValue;
+    public Ease CorrectWordScaleUpEase => m_CorrectWordScaleUpEase;
+    public float CorrectWordScaleDownDuration => m_CorrectWordScaleDownDuration;
+    public Ease CorrectWordScaleDownEase => m_CorrectWordScaleDownEase;
     #endregion
 
     #endregion

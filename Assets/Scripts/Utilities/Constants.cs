@@ -38,11 +38,19 @@ public struct PooledObjectTags
 {
     public const string LETTER = "Letter";
     public const string EMPTY_LETTER = "EmptyLetter";
+    public const string CORRECT_LETTER_VFX="CorrevtLetterVFX";
 }
 
 #endregion
 
 #region Enums
+public enum SpriteOrderInLayer
+{
+    LetterSpriteActive = -10,
+    LetterTextActive = -9,
+    LetterSpriteDeactive = -12,
+    LetterTextDeactive = -11,
+}
 public enum ObjectsLayer
 {
     Default = 0,
@@ -65,13 +73,14 @@ public enum MainMenuAreas
 
 public enum HudPanelAreas
 {
-    HudArea=0,
+    HudArea = 0,
 }
 
 public enum ActiveParents
 {
     ActiveLetterParent = 0,
-    ActiveEmptyLetterParent=1,
+    ActiveEmptyLetterParent = 1,
+    ActiveVFXParent=2
 }
 
 public enum ListOperations

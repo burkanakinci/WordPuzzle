@@ -17,9 +17,26 @@ public class CheckWordButton : UIBaseButton<HudArea>
     public override void Initialize(HudArea _cachedComponent)
     {
         base.Initialize(_cachedComponent);
+        GameManager.Instance.LevelManager.WordManager.OnChangedClickedWord += SetCheckWordButtonStatus;
+        SetCheckWordButtonStatus(false);
     }
     protected override void OnClickAction()
     {
-
+        GameManager.Instance.LevelManager.WordManager.CheckWord();
     }
+
+    public void SetCheckWordButtonStatus(bool _isActive)
+    {
+        m_CheckWordButtonBG.color = _isActive ? m_BGActiveColor : m_BGDeactiveColor;
+        m_CheckWordButtonIcon.color = _isActive ? m_IconActiveColor : m_IconDeactiveColor;
+        m_Button.enabled = _isActive;
+    }
+
+    #region Event
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        GameManager.Instance.LevelManager.WordManager.OnChangedClickedWord -= SetCheckWordButtonStatus;
+    }
+    #endregion
 }

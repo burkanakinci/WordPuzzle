@@ -35,16 +35,25 @@ public class Entities : CustomBehaviour
             return null;
         }
     }
-    public EmptyLetter GetEmptyLetter(int _index)
+    public EmptyLetter GetFirstEmptyLetter()
+    {
+        for (int _emptyCount = 0; _emptyCount < m_EmptyLetterOnScene.Count; _emptyCount++)
+        {
+            if (m_EmptyLetterOnScene[_emptyCount].LetterOnEmptyLetter == null)
+            {
+                return m_EmptyLetterOnScene[_emptyCount];
+            }
+        }
+
+        return null;
+    }
+    public EmptyLetter GetEmptyLetterByIndex(int _index)
     {
         if (_index < m_EmptyLetterOnScene.Count)
         {
             return m_EmptyLetterOnScene[_index];
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
     public Transform GetActiveParent(ActiveParents _parent)
     {

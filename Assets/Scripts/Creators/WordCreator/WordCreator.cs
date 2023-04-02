@@ -37,7 +37,7 @@ public class WordCreator : MonoBehaviour
                     {
                         if (_line[0] == m_Alphabet[_alphabetCount])
                         {
-                            File.AppendAllText(m_SavePath, _line + "\n");
+                            File.AppendAllText(m_SavePath, _line.Trim() + "\n");
                         }
                     }
                 });
