@@ -9,6 +9,7 @@ public class WordManager : CustomBehaviour<LevelManager>
     #region Events
     public event Action<bool> OnChangedClickedWord;
     public event Action<bool, string> OnSubmitWord;
+    public event Action<int> OnIncreaseScoreEvent;
     #endregion
     private List<Letter> m_ClickableLetters;
     private List<Letter> m_ClickedLetters;
@@ -89,10 +90,22 @@ public class WordManager : CustomBehaviour<LevelManager>
             if (m_TargetLetters[_targetCount].Trim() == m_TempClickedWord.Trim())
             {
                 OnSubmitWord?.Invoke(true, m_TempClickedWord.Trim());
+                m_TempIncreaseScore = (m_TempCharacterPointTotal * 10 * m_TempClickedWord.Length);
+                OnIncreaseScoreEvent?.Invoke(m_TempIncreaseScore);
                 return;
             }
         }
 
         OnSubmitWord?.Invoke(false, m_TempClickedWord.Trim());
+    }
+    private int m_TempIncreaseScore;
+    private int m_TempCharacterPointTotal;
+    public void IncreaseScore(int _increaseValue)
+    {
+        m_TempCharacterPointTotal += _increaseValue;
+    }
+    public void DecreaseScore(int _decreaseValue)
+    {
+        m_TempCharacterPointTotal -= _decreaseValue;
     }
 }

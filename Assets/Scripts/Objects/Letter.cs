@@ -22,6 +22,7 @@ public class Letter : PooledObject
     private List<Letter> m_LetterParents;
     private TileData m_CurrentTile;
     public char LetterChar { get; private set; }
+    public int LetterScore;
     public override void Initialize()
     {
         base.Initialize();
@@ -52,6 +53,7 @@ public class Letter : PooledObject
         m_CurrentTile = _tile;
 
         LetterChar = m_CurrentTile.character.ToUpper()[0];
+        LetterScore = GameManager.Instance.Entities.GetScore(LetterChar);
         m_LetterText.text = LetterChar.ToString();
 
         GameManager.Instance.Entities.ManageLetterOnScene(m_CurrentTile.id, this, ListOperations.Adding);
@@ -103,6 +105,7 @@ public class Letter : PooledObject
     private void ClickSequence()
     {
         this.gameObject.layer = (int)ObjectsLayer.Default;
+        GameManager.Instance.LevelManager.WordManager.IncreaseScore(LetterScore);
         DOTween.Kill(m_LetterClickSequenceID);
         m_LetterClickSequence = DOTween.Sequence().SetId(m_LetterClickSequenceID);
         m_EmptyLetterOnClicked = GameManager.Instance.Entities.GetFirstEmptyLetter();

@@ -14,9 +14,11 @@ public class LevelManager : CustomBehaviour
     private LevelData m_CurrentLevelData;
     public LevelData CurrentLevelData => m_CurrentLevelData;
     public WordManager WordManager;
+    private int m_LevelScore;
     public override void Initialize()
     {
         base.Initialize();
+        GameManager.Instance.LevelManager.WordManager.OnIncreaseScoreEvent += OnIncreaseScore;
         WordManager.Initialize(this);
     }
     public void StartLevel(LevelData _levelData)
@@ -53,12 +55,13 @@ public class LevelManager : CustomBehaviour
 
     #region Events
 
-    public void OnMainMenu()
+    public void OnIncreaseScore(int _wordScore)
     {
-
+        m_LevelScore += _wordScore;
     }
     public void OnLevelStart()
     {
+        m_LevelScore = 0;
         SpawnLevelObjects();
         OnSpawnedLettersEvent?.Invoke();
         OnCompletedLetterParentsEvent?.Invoke();
@@ -66,6 +69,10 @@ public class LevelManager : CustomBehaviour
     public void OnExitGameplay()
     {
         OnCleanSceneObjectEvent?.Invoke();
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.LevelManager.WordManager.OnIncreaseScoreEvent -= OnIncreaseScore;
     }
     #endregion
 }

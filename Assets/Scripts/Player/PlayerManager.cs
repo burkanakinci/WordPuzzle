@@ -61,6 +61,9 @@ public class PlayerManager : CustomBehaviour
     {
         m_Player.PlayerStateMachine.ChangeState(PlayerStates.FailedState);
     }
+    private void OnIncreaseScore(int _score)
+    {
+    }
     private void OnDestroy()
     {
         GameManager.Instance.OnMainMenuEvent -= OnMainMenu;

@@ -11,6 +11,7 @@ public class Entities : CustomBehaviour
     private Dictionary<int, Letter> m_LetterOnScene;
     private List<EmptyLetter> m_EmptyLetterOnScene;
     [SerializeField] private Transform[] m_ActiveParents;
+    [SerializeField] private Score[] m_CharactesScores;
 
     #region EcternalAccess
     public int LetterOnSceneCount => m_LetterOnScene.Count;
@@ -65,7 +66,20 @@ public class Entities : CustomBehaviour
         {
             return null;
         }
-
+    }
+    public int GetScore(char _letterChar)
+    {
+        for (int _scoreCount = 0; _scoreCount < m_CharactesScores.Length; _scoreCount++)
+        {
+            for (int _charCount = 0; _charCount < m_CharactesScores[_scoreCount].Character.Length; _charCount++)
+            {
+                if (m_CharactesScores[_scoreCount].Character[_charCount].ToString().ToUpper()[0] == _letterChar)
+                {
+                    return m_CharactesScores[_scoreCount].ScorePoint;
+                }
+            }
+        }
+        return 0;
     }
     #endregion
     #region Setters

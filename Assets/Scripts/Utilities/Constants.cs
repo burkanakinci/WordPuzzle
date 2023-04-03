@@ -24,6 +24,13 @@ public struct TileData
     public string character;
     public int[] children;
 }
+
+[System.Serializable]
+public struct Score
+{
+    public int ScorePoint;
+    public char[] Character;
+}
 #endregion
 
 #region Constants
@@ -38,7 +45,7 @@ public struct PooledObjectTags
 {
     public const string LETTER = "Letter";
     public const string EMPTY_LETTER = "EmptyLetter";
-    public const string CORRECT_LETTER_VFX="CorrevtLetterVFX";
+    public const string CORRECT_LETTER_VFX = "CorrevtLetterVFX";
 }
 
 #endregion
@@ -80,7 +87,7 @@ public enum ActiveParents
 {
     ActiveLetterParent = 0,
     ActiveEmptyLetterParent = 1,
-    ActiveVFXParent=2
+    ActiveVFXParent = 2
 }
 
 public enum ListOperations
