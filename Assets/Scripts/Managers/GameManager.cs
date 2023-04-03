@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public ObjectPool ObjectPool;
     public Entities Entities;
     public InputManager InputManager;
+    public AutoSolver AutoSolver;
     #endregion
     #region Actions
     public event Action OnMainMenuEvent;
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
         LevelManager.Initialize();
         UIManager.Initialize();
         InputManager.Initialize();
+        AutoSolver.Initialize();
     }
 
     #region Events

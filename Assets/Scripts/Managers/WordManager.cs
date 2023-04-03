@@ -20,17 +20,28 @@ public class WordManager : CustomBehaviour<LevelManager>
     public override void Initialize(LevelManager _levelManager)
     {
         base.Initialize(_levelManager);
+        OnSubmitWord += OnIncreaseScore;
         m_ClickableLetters = new List<Letter>();
         m_ClickedLetters = new List<Letter>();
         m_TargetLetters = new List<string>();
-        m_TempClickedWord = "";
+        TempClickedWord = "";
     }
 
     private Vector3 m_TempEmptyLetterSpawnPos;
-    public void SpawnEmptyLetter()
+    private string m_TempTargetWord;
+
+    public void StartSpawnEmptyLetters()
     {
-        m_TempEmptyLetterSpawnPos = (m_ClickableLetters.Count % 2 == 0) ? (Vector3.right * 2.0f) : (Vector3.zero);
-        for (int _emptyLetterCount = 0; _emptyLetterCount < m_ClickableLetters.Count; _emptyLetterCount++)
+        GameManager.Instance.AutoSolver.StartCheckWord(m_TempTargetWord);
+    }
+
+    private string m_TempEmptyWord;
+    public void SpawnEmptyLetters()
+    {
+        m_TempEmptyWord = GameManager.Instance.AutoSolver.TempClickableTarget;
+
+        m_TempEmptyLetterSpawnPos = (m_TempEmptyWord.Length % 2 == 0) ? (Vector3.right * 2.0f) : (Vector3.zero);
+        for (int _emptyLetterCount = 0; _emptyLetterCount < m_TempEmptyWord.Length; _emptyLetterCount++)
         {
             if (_emptyLetterCount % 2 == 1)
             {
@@ -47,6 +58,9 @@ public class WordManager : CustomBehaviour<LevelManager>
                 (Quaternion.identity),
                 (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveEmptyLetterParent)));
         }
+
+        GameManager.Instance.Entities.SetEmptyLetterIndexByEntities();
+        GameManager.Instance.Entities.GetFirstEmptyLetter().EmptyLetterSpawnSequence();
     }
     public void ManageClickableList(Letter _clickable, ListOperations _operation)
     {
@@ -56,12 +70,14 @@ public class WordManager : CustomBehaviour<LevelManager>
                 if (!m_ClickableLetters.Contains(_clickable))
                 {
                     m_ClickableLetters.Add(_clickable);
+                    m_TempTargetWord += _clickable.LetterChar;
                 }
                 break;
             case (ListOperations.Substraction):
                 if (m_ClickableLetters.Contains(_clickable))
                 {
                     m_ClickableLetters.Remove(_clickable);
+                    m_TempTargetWord = m_TempTargetWord.Replace(_clickable.LetterChar.ToString(), "");
                 }
                 break;
         }
@@ -69,7 +85,7 @@ public class WordManager : CustomBehaviour<LevelManager>
     private List<string> m_TargetLetters;
     private TextAsset m_TargetTextAsset;
     private string m_TargetLoadPath;
-    private string m_TempClickedWord;
+    public string TempClickedWord { get; private set; }
     public void ManageClickedLetterList(Letter _clicked, ListOperations _operation)
     {
         switch (_operation)
@@ -78,14 +94,14 @@ public class WordManager : CustomBehaviour<LevelManager>
                 if (!m_ClickedLetters.Contains(_clicked))
                 {
                     m_ClickedLetters.Add(_clicked);
-                    m_TempClickedWord += _clicked.LetterChar;
+                    TempClickedWord += _clicked.LetterChar;
                 }
                 break;
             case (ListOperations.Substraction):
                 if (m_ClickedLetters.Contains(_clicked))
                 {
                     m_ClickedLetters.Remove(_clicked);
-                    m_TempClickedWord = m_TempClickedWord.Replace(_clicked.LetterChar.ToString(), "");
+                    TempClickedWord = TempClickedWord.Replace(_clicked.LetterChar.ToString(), "");
                 }
                 break;
         }
@@ -96,25 +112,20 @@ public class WordManager : CustomBehaviour<LevelManager>
         return m_ClickedLetters[m_ClickedLetters.Count - 1];
     }
 
-    public void CheckWord()
+    public void OnSubmit(bool _isCorrect)
     {
-        m_TargetLoadPath = "Texts/" + m_ClickedLetters[0].LetterChar + "/" + m_ClickedLetters[0].LetterChar + "_" + GameManager.Instance.Entities.EmptyLetterOnSceneCount;
-        m_TargetTextAsset = (TextAsset)Resources.Load(m_TargetLoadPath);
-        m_TargetLetters = m_TargetTextAsset.text.Split("\n").ToList();
-
-        for (int _targetCount = 0; _targetCount < m_TargetLetters.Count; _targetCount++)
-        {
-            if (m_TargetLetters[_targetCount].Trim() == m_TempClickedWord.Trim())
-            {
-                OnSubmitWord?.Invoke(true, m_TempClickedWord.Trim());
-                m_TempIncreaseScore = (m_TempCharacterPointTotal * 10 * m_TempClickedWord.Length);
-                OnIncreaseScoreEvent?.Invoke(m_TempIncreaseScore);
-                return;
-            }
-        }
-
-        OnSubmitWord?.Invoke(false, m_TempClickedWord.Trim());
+        OnSubmitWord?.Invoke(_isCorrect, TempClickedWord);
     }
+
+    private void OnIncreaseScore(bool _isIncrease, string _word)
+    {
+        if (_isIncrease)
+        {
+            m_TempIncreaseScore = (m_TempCharacterPointTotal * 10 * _word.Length);
+            OnIncreaseScoreEvent?.Invoke(m_TempIncreaseScore);
+        }
+    }
+
     private int m_TempIncreaseScore;
     private int m_TempCharacterPointTotal;
     public void IncreaseScore(int _increaseValue)
@@ -124,5 +135,9 @@ public class WordManager : CustomBehaviour<LevelManager>
     public void DecreaseScore(int _decreaseValue)
     {
         m_TempCharacterPointTotal -= _decreaseValue;
+    }
+    private void OnDestroy()
+    {
+        OnSubmitWord -= OnIncreaseScore;
     }
 }

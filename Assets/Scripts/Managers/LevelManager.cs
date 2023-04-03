@@ -91,9 +91,7 @@ public class LevelManager : CustomBehaviour
         m_LevelScore = 0;
         OnSpawnedLettersEvent?.Invoke();
         OnCompletedLetterParentsEvent?.Invoke();
-        WordManager.SpawnEmptyLetter();
-        GameManager.Instance.Entities.SetEmptyLetterIndexByEntities();
-        GameManager.Instance.Entities.GetFirstEmptyLetter().EmptyLetterSpawnSequence();
+        WordManager.StartSpawnEmptyLetters();
     }
     public void OnExitGameplay()
     {

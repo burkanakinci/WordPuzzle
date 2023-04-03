@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class CheckWordButton : UIBaseButton<HudArea>
 {
     [Header("Button Images")]
@@ -22,7 +21,14 @@ public class CheckWordButton : UIBaseButton<HudArea>
     }
     protected override void OnClickAction()
     {
-        GameManager.Instance.LevelManager.WordManager.CheckWord();
+        if (GameManager.Instance.LevelManager.WordManager.TempClickedWord.ToLower().Trim() == GameManager.Instance.AutoSolver.TempClickableTarget.ToLower().Trim())
+        {
+            GameManager.Instance.LevelManager.WordManager.OnSubmit(true);
+        }
+        else
+        {
+            GameManager.Instance.LevelManager.WordManager.OnSubmit(false);
+        }
     }
     #region Event
     public void SetCheckWordButtonStatus(int _clickedCount, int _emptyCount)
