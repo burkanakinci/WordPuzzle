@@ -15,9 +15,6 @@ public class LevelStartState : IState
         GameManager.Instance.UIManager.OnLevelStart();
         GameManager.Instance.UIManager.CurrentUIPanel.OnLevelStart();
         GameManager.Instance.LevelManager.OnLevelStart();
-        GameManager.Instance.LevelManager.WordManager.SpawnEmptyLetter();
-        GameManager.Instance.Entities.SetEmptyLetterIndexByEntities();
-        GameManager.Instance.Entities.GetFirstEmptyLetter().EmptyLetterSpawnSequence();
     }
     public void Exit()
     {

@@ -7,7 +7,7 @@ using System.Linq;
 public class WordManager : CustomBehaviour<LevelManager>
 {
     #region Events
-    public event Action<bool> OnChangedClickedWord;
+    public event Action<int, int> OnChangedClickedWordEvent;
     public event Action<bool, string> OnSubmitWord;
     public event Action<int> OnIncreaseScoreEvent;
     #endregion
@@ -48,9 +48,23 @@ public class WordManager : CustomBehaviour<LevelManager>
                 (GameManager.Instance.Entities.GetActiveParent(ActiveParents.ActiveEmptyLetterParent)));
         }
     }
-    public void AddClickableLetterList(Letter _clickable)
+    public void ManageClickableList(Letter _clickable, ListOperations _operation)
     {
-        m_ClickableLetters.Add(_clickable);
+        switch (_operation)
+        {
+            case (ListOperations.Adding):
+                if (!m_ClickableLetters.Contains(_clickable))
+                {
+                    m_ClickableLetters.Add(_clickable);
+                }
+                break;
+            case (ListOperations.Substraction):
+                if (m_ClickableLetters.Contains(_clickable))
+                {
+                    m_ClickableLetters.Remove(_clickable);
+                }
+                break;
+        }
     }
     private List<string> m_TargetLetters;
     private TextAsset m_TargetTextAsset;
@@ -75,10 +89,13 @@ public class WordManager : CustomBehaviour<LevelManager>
                 }
                 break;
         }
-        OnChangedClickedWord?.Invoke(m_ClickedLetters.Count == GameManager.Instance.Entities.EmptyLetterOnSceneCount);
+        OnChangedClickedWordEvent?.Invoke(m_ClickedLetters.Count, GameManager.Instance.Entities.EmptyLetterOnSceneCount);
+    }
+    public Letter GetLastClickedLetter()
+    {
+        return m_ClickedLetters[m_ClickedLetters.Count - 1];
     }
 
-    public bool m_IsCorrectWord;
     public void CheckWord()
     {
         m_TargetLoadPath = "Texts/" + m_ClickedLetters[0].LetterChar + "/" + m_ClickedLetters[0].LetterChar + "_" + GameManager.Instance.Entities.EmptyLetterOnSceneCount;

@@ -17,6 +17,7 @@ public class Entities : CustomBehaviour
     public int LetterOnSceneCount => m_LetterOnScene.Count;
     public int EmptyLetterOnSceneCount => m_EmptyLetterOnScene.Count;
     #endregion
+
     public override void Initialize()
     {
         base.Initialize();

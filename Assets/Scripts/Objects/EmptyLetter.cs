@@ -16,6 +16,7 @@ public class EmptyLetter : PooledObject
     {
         base.Initialize();
         m_EmptyLetterSpawnSequenceID = GetInstanceID() + "m_EmptyWordSpawnSequenceID";
+        m_HideEmptyLetterDelayID = GetInstanceID() + "m_HideEmptyLetterDelayID";
     }
     public override void OnObjectSpawn()
     {
@@ -59,6 +60,7 @@ public class EmptyLetter : PooledObject
     private void KillAllTween()
     {
         DOTween.Kill(m_EmptyLetterSpawnSequenceID);
+        DOTween.Kill(m_HideEmptyLetterDelayID);
     }
 
     public void ManageLetterOnEmptyLetter(Letter _letter, ListOperations _operation)
@@ -73,17 +75,21 @@ public class EmptyLetter : PooledObject
                 break;
         }
     }
+    private string m_HideEmptyLetterDelayID;
+    private void HideEmptyLetter()
+    {
+        DOTween.Kill(m_HideEmptyLetterDelayID);
+        DOVirtual.DelayedCall(1.5f, () => OnObjectDeactive())
+        .SetId(m_HideEmptyLetterDelayID);
+    }
 
     #region Events
-    private void OnSubmitWord(bool _isCorrect,string _word)
+    private void OnSubmitWord(bool _isCorrect, string _word)
     {
         if (_isCorrect)
         {
             LetterOnEmptyLetter.CorrectWordSequence(ref m_EmptyLetterText);
-        }
-        else
-        {
-
+            HideEmptyLetter();
         }
     }
 

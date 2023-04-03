@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 
 public class LevelManager : CustomBehaviour
 {
@@ -19,12 +20,14 @@ public class LevelManager : CustomBehaviour
     {
         base.Initialize();
         GameManager.Instance.LevelManager.WordManager.OnIncreaseScoreEvent += OnIncreaseScore;
+        GameManager.Instance.LevelManager.WordManager.OnSubmitWord += OnSubmitWord;
         WordManager.Initialize(this);
+        m_NewWordDelayID = GetInstanceID() + "m_NewWordDelayID";
     }
     public void StartLevel(LevelData _levelData)
     {
         m_CurrentLevelData = _levelData;
-
+        SpawnLevelObjects();
         GameManager.Instance.OnLevelStart();
     }
     private Letter m_TempSpawnedLetter;
@@ -52,9 +55,33 @@ public class LevelManager : CustomBehaviour
         return m_CurrentLevelData.tiles[_tileId];
     }
     #endregion
+    private Coroutine m_NewWordCoroutine;
+    private void StartNewWordCoroutine()
+    {
+        if (m_NewWordCoroutine != null)
+        {
+            StopCoroutine(m_NewWordCoroutine);
+        }
+        m_NewWordCoroutine = StartCoroutine(NewWordCoroutine());
+    }
+    private IEnumerator NewWordCoroutine()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.Entities.EmptyLetterOnSceneCount == 0);
+        NewWordDelayedCall();
+    }
+    private string m_NewWordDelayID;
+    private void NewWordDelayedCall()
+    {
+        DOTween.Kill(m_NewWordDelayID);
+        DOVirtual.DelayedCall(1.0f, () => OnLevelStart());
+    }
+
+    private void KillAllTween()
+    {
+        DOTween.Kill(m_NewWordDelayID);
+    }
 
     #region Events
-
     public void OnIncreaseScore(int _wordScore)
     {
         m_LevelScore += _wordScore;
@@ -62,17 +89,28 @@ public class LevelManager : CustomBehaviour
     public void OnLevelStart()
     {
         m_LevelScore = 0;
-        SpawnLevelObjects();
         OnSpawnedLettersEvent?.Invoke();
         OnCompletedLetterParentsEvent?.Invoke();
+        WordManager.SpawnEmptyLetter();
+        GameManager.Instance.Entities.SetEmptyLetterIndexByEntities();
+        GameManager.Instance.Entities.GetFirstEmptyLetter().EmptyLetterSpawnSequence();
     }
     public void OnExitGameplay()
     {
         OnCleanSceneObjectEvent?.Invoke();
     }
+    private void OnSubmitWord(bool _isCorrect, string _word)
+    {
+        if (_isCorrect)
+        {
+            StartNewWordCoroutine();
+        }
+    }
     private void OnDestroy()
     {
+        KillAllTween();
         GameManager.Instance.LevelManager.WordManager.OnIncreaseScoreEvent -= OnIncreaseScore;
+        GameManager.Instance.LevelManager.WordManager.OnSubmitWord -= OnSubmitWord;
     }
     #endregion
 }

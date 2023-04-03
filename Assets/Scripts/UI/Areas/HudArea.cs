@@ -13,6 +13,7 @@ public class HudArea : BaseArea<HudPanel>
 
     [Header("Hud Buttons")]
     [SerializeField] private CheckWordButton m_CheckWordButton;
+    [SerializeField] private UndoMoveButton m_UndoMoveButton;
 
     [Header("Matched Text")]
     [SerializeField] private TextMeshProUGUI m_MatchedText;
@@ -44,6 +45,7 @@ public class HudArea : BaseArea<HudPanel>
         GameManager.Instance.LevelManager.WordManager.OnIncreaseScoreEvent += OnIncreaseScore;
 
         m_CheckWordButton.Initialize(this);
+        m_UndoMoveButton.Initialize(this);
 
         m_ShowWordScoreTweenID = GetInstanceID() + "m_ShowWordScoreTweenID";
         m_HideWordScoreDelayID = GetInstanceID() + "m_HideWordScoreDelayID";

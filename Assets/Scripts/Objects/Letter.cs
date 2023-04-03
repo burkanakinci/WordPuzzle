@@ -41,8 +41,10 @@ public class Letter : PooledObject
     public override void OnObjectDeactive()
     {
         KillAllTween();
+        ManageChildsParent(ListOperations.Substraction);
         GameManager.Instance.LevelManager.WordManager.ManageClickedLetterList(this, ListOperations.Substraction);
         GameManager.Instance.Entities.ManageLetterOnScene(m_CurrentTile.id, this, ListOperations.Substraction);
+        GameManager.Instance.LevelManager.WordManager.ManageClickableList(this, ListOperations.Substraction);
         GameManager.Instance.LevelManager.OnSpawnedLettersEvent -= OnSpawnedLetters;
         GameManager.Instance.LevelManager.OnCompletedLetterParentsEvent -= OnCompletedManageParents;
         m_LetterParents.Clear();
@@ -90,7 +92,7 @@ public class Letter : PooledObject
             m_LetterText.sortingOrder = (int)SpriteOrderInLayer.LetterTextActive;
             m_LetterBGSprite.color = m_SelecetableStatusColor;
             m_LetterText.color = m_SelecetableStatusColor;
-            GameManager.Instance.LevelManager.WordManager.AddClickableLetterList(this);
+            GameManager.Instance.LevelManager.WordManager.ManageClickableList(this, ListOperations.Adding);
         }
     }
 
@@ -104,15 +106,30 @@ public class Letter : PooledObject
     private Sequence m_LetterClickSequence;
     private void ClickSequence()
     {
+        DOTween.Kill(m_LetterClickSequenceID);
         this.gameObject.layer = (int)ObjectsLayer.Default;
         GameManager.Instance.LevelManager.WordManager.IncreaseScore(LetterScore);
-        DOTween.Kill(m_LetterClickSequenceID);
         m_LetterClickSequence = DOTween.Sequence().SetId(m_LetterClickSequenceID);
         m_EmptyLetterOnClicked = GameManager.Instance.Entities.GetFirstEmptyLetter();
         m_EmptyLetterOnClicked.ManageLetterOnEmptyLetter(this, ListOperations.Adding);
         GameManager.Instance.LevelManager.WordManager.ManageClickedLetterList(this, ListOperations.Adding);
         m_LetterClickSequence.Append(transform.DOMove(m_EmptyLetterOnClicked.transform.position, m_LetterData.ClickTweenDuration));
         m_LetterClickSequence.Join(transform.DOScale((Vector3.one * (2.0f / 3.0f)), m_LetterData.ClickTweenDuration));
+        m_LetterClickSequence.AppendCallback(() =>
+        {
+            GameManager.Instance.InputManager.SetInputCanClickable(true);
+        });
+    }
+    public void MoveUndoLetter()
+    {
+        DOTween.Kill(m_LetterClickSequenceID);
+        this.gameObject.layer = (int)ObjectsLayer.Letter;
+        GameManager.Instance.LevelManager.WordManager.DecreaseScore(LetterScore);
+        m_LetterClickSequence = DOTween.Sequence().SetId(m_LetterClickSequenceID);
+        m_EmptyLetterOnClicked.ManageLetterOnEmptyLetter(this, ListOperations.Substraction);
+        GameManager.Instance.LevelManager.WordManager.ManageClickedLetterList(this, ListOperations.Substraction);
+        m_LetterClickSequence.Append(transform.DOMove(m_CurrentTile.position, m_LetterData.ClickTweenDuration));
+        m_LetterClickSequence.Join(transform.DOScale((Vector3.one), m_LetterData.ClickTweenDuration));
         m_LetterClickSequence.AppendCallback(() =>
         {
             GameManager.Instance.InputManager.SetInputCanClickable(true);

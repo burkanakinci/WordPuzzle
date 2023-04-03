@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CheckWordButton : UIBaseButton<HudArea>
+public class UndoMoveButton : UIBaseButton<HudArea>
 {
     [Header("Button Images")]
-    [SerializeField] private Image m_CheckWordButtonBG;
-    [SerializeField] private Image m_CheckWordButtonIcon;
+    [SerializeField] private Image m_UndoButtonBG;
+    [SerializeField] private Image m_UndoButtonIcon;
 
     [Header("Button Status Colors")]
     [SerializeField] private Color m_BGDeactiveColor;
@@ -22,14 +22,15 @@ public class CheckWordButton : UIBaseButton<HudArea>
     }
     protected override void OnClickAction()
     {
-        GameManager.Instance.LevelManager.WordManager.CheckWord();
+        GameManager.Instance.InputManager.SetInputCanClickable(false);
+        GameManager.Instance.LevelManager.WordManager.GetLastClickedLetter().MoveUndoLetter();
     }
     #region Event
     public void SetCheckWordButtonStatus(int _clickedCount, int _emptyCount)
     {
-        m_CheckWordButtonBG.color = (_clickedCount == _emptyCount) ? m_BGActiveColor : m_BGDeactiveColor;
-        m_CheckWordButtonIcon.color = (_clickedCount == _emptyCount) ? m_IconActiveColor : m_IconDeactiveColor;
-        m_Button.enabled = (_clickedCount == _emptyCount);
+        m_UndoButtonBG.color = (_clickedCount > 0) ? m_BGActiveColor : m_BGDeactiveColor;
+        m_UndoButtonIcon.color = (_clickedCount > 0) ? m_IconActiveColor : m_IconDeactiveColor;
+        m_Button.enabled = (_clickedCount > 0);
     }
 
     protected override void OnDestroy()
