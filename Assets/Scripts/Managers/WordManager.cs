@@ -8,7 +8,7 @@ public class WordManager : CustomBehaviour<LevelManager>
 {
     #region Events
     public event Action<bool> OnChangedClickedWord;
-    public event Action<bool> OnSubmitWord;
+    public event Action<bool, string> OnSubmitWord;
     #endregion
     private List<Letter> m_ClickableLetters;
     private List<Letter> m_ClickedLetters;
@@ -88,11 +88,11 @@ public class WordManager : CustomBehaviour<LevelManager>
         {
             if (m_TargetLetters[_targetCount].Trim() == m_TempClickedWord.Trim())
             {
-                OnSubmitWord?.Invoke(true);
+                OnSubmitWord?.Invoke(true, m_TempClickedWord.Trim());
                 return;
             }
         }
 
-        OnSubmitWord?.Invoke(false);
+        OnSubmitWord?.Invoke(false, m_TempClickedWord.Trim());
     }
 }

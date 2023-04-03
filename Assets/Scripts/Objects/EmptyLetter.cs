@@ -75,7 +75,7 @@ public class EmptyLetter : PooledObject
     }
 
     #region Events
-    private void OnSubmitWord(bool _isCorrect)
+    private void OnSubmitWord(bool _isCorrect,string _word)
     {
         if (_isCorrect)
         {
