@@ -16,6 +16,7 @@ public class AutoSolver : CustomBehaviour
 
     public async void StartCheckWord(string _targetWord)
     {
+        GameManager.Instance.InputManager.SetInputCanClickable(false);
         TempClickableTarget = null;
         await GenerateWords(_targetWord);
     }
@@ -49,6 +50,7 @@ public class AutoSolver : CustomBehaviour
             {
                 TempClickableTarget = result;
                 GameManager.Instance.LevelManager.WordManager.SpawnEmptyLetters();
+                GameManager.Instance.InputManager.SetInputCanClickable(true);
                 return;
             }
         }
@@ -69,51 +71,28 @@ public class AutoSolver : CustomBehaviour
             }
         }
     }
-    public TextAsset m_TargetTextAsset;
-    public List<string> m_TargetLetters;
-    AsyncOperationHandle<TextAsset> handle;
 
-    private int m_LowerBond;
-    private int m_UpperBound;
-    private int m_Middle;
-    int m_CompareResult;
+    private string[] m_TargetLetters;
+    private TextAsset m_TextAsset;
+    private int m_LetterIndex;
+    private AssetReference m_AssetPath;
     public async Task<string> CheckWord(string word, Action _onCompleteSuccess = null, Action _onCompleteFailed = null)
     {
-        handle = Addressables.LoadAssetAsync<TextAsset>("Assets/Resources_moved/Texts/" + word[0] + "/" + word[0] + "_" + word.Length + ".txt");
-        await handle.Task;
-        m_TargetTextAsset = handle.Result;
-        if (m_TargetTextAsset != null)
+        m_AssetPath = new AssetReference($"Assets/Resources_moved/Texts/{word[0]}/{word[0]}_{word.Length}.txt");
+        m_TextAsset = await m_AssetPath.LoadAssetAsync<TextAsset>().Task;
+        m_TargetLetters = m_TextAsset.text.ToLower().Split("\r\n");
+        m_LetterIndex = Array.BinarySearch(m_TargetLetters, word.ToLower());
+
+        if (m_LetterIndex >= 0)
         {
-            m_TargetLetters = m_TargetTextAsset.text.ToLower().Split("\n").ToList();
-            m_UpperBound = m_TargetLetters.Count - 1;
-            m_LowerBond = 0;
-
-            m_Middle = (m_LowerBond + m_UpperBound) / 2;
-
-            while (m_LowerBond <= m_UpperBound)
-            {
-                m_Middle = (m_LowerBond + m_UpperBound) / 2;
-                m_CompareResult = word.ToLower().Trim().CompareTo(m_TargetLetters[m_Middle].ToLower().Trim());
-                if (m_CompareResult == 0)
-                {
-                    Debug.Log("Var" + "   :   " + word);
-                    _onCompleteSuccess?.Invoke();
-                    return word;
-                }
-                else if (m_CompareResult > 0)
-                {
-                    m_LowerBond = m_Middle + 1;
-                }
-                else
-                {
-                    m_UpperBound = m_Middle - 1;
-                }
-            }
-
+            _onCompleteSuccess?.Invoke();
+            return word;
+        }
+        else
+        {
             _onCompleteFailed?.Invoke();
             return null;
         }
-        _onCompleteFailed?.Invoke();
-        return null;
     }
+
 }
