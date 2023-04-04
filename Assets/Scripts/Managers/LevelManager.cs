@@ -15,7 +15,7 @@ public class LevelManager : CustomBehaviour
     private LevelData m_CurrentLevelData;
     public LevelData CurrentLevelData => m_CurrentLevelData;
     public WordManager WordManager;
-    private int m_LevelScore;
+    public int LevelScore { get; private set; }
     public override void Initialize()
     {
         base.Initialize();
@@ -82,13 +82,17 @@ public class LevelManager : CustomBehaviour
     }
 
     #region Events
+    public void SetLevelEndScore()
+    {
+        LevelScore -= WordManager.ClickableCount;
+    }
     public void OnIncreaseScore(int _wordScore)
     {
-        m_LevelScore += _wordScore;
+        LevelScore += _wordScore;
     }
     public void OnLevelStart()
     {
-        m_LevelScore = 0;
+        LevelScore = 0;
         OnSpawnedLettersEvent?.Invoke();
         OnCompletedLetterParentsEvent?.Invoke();
         WordManager.StartSpawnEmptyLetters();

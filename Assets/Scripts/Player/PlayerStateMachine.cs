@@ -11,6 +11,7 @@ public class PlayerStateMachine
         m_States = new List<IState>();
         m_States.Add(new MainMenuState(_player));
         m_States.Add(new LevelStartState(_player));
+        m_States.Add(new SuccessState(_player));
     }
 
     public void ChangeState(PlayerStates _state, bool _changeForce = false)

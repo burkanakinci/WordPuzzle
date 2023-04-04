@@ -32,7 +32,7 @@ public class AutoSolver : CustomBehaviour
             await GenerateWordsHelper(m_LettersArray, "", length);
             if ((length == m_MinLength) && (TempClickableTarget == null))
             {
-                //bitir
+                GameManager.Instance.OnSuccess();
             }
         }
     }

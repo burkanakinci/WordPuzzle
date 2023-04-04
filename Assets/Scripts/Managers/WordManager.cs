@@ -16,6 +16,7 @@ public class WordManager : CustomBehaviour<LevelManager>
 
     #region EcternalAccess
     public int ClickedCount => m_ClickedLetters.Count;
+    public int ClickableCount=>m_ClickableLetters.Count;
     #endregion
     public override void Initialize(LevelManager _levelManager)
     {

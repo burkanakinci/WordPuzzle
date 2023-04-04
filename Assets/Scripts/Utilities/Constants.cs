@@ -68,7 +68,7 @@ public enum UIPanelType
 {
     MainMenuPanel = 0,
     HudPanel = 1,
-    OnSuccess = 2,
+    SuccessPanel = 2,
     OnFailed = 3
 }
 

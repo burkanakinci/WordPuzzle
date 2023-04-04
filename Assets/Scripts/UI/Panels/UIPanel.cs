@@ -8,6 +8,7 @@ public class UIPanel : CustomBehaviour<UIManager>
     public CanvasGroup CanvasGroup => m_CanvasGroup;
 
     public event Action OnLevelStartPanelEvent;
+    public event Action OnSuccessLevelEvent;
 
     public override void Initialize(UIManager _uiManager)
     {
@@ -47,6 +48,10 @@ public class UIPanel : CustomBehaviour<UIManager>
     public virtual void OnLevelStart()
     {
         OnLevelStartPanelEvent?.Invoke();
+    }
+    public virtual void OnSuccessState()
+    {
+        OnSuccessLevelEvent?.Invoke();
     }
     #endregion
 }

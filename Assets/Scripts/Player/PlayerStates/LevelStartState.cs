@@ -13,7 +13,6 @@ public class LevelStartState : IState
     public void Enter()
     {
         GameManager.Instance.UIManager.OnLevelStart();
-        GameManager.Instance.UIManager.CurrentUIPanel.OnLevelStart();
         GameManager.Instance.LevelManager.OnLevelStart();
     }
     public void Exit()

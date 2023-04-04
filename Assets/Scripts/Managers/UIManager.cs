@@ -49,6 +49,12 @@ public class UIManager : CustomBehaviour
     public void OnLevelStart()
     {
         GetPanel(UIPanelType.HudPanel).ShowPanel();
+        CurrentUIPanel.OnLevelStart();
+    }
+    public void OnLevelEnd()
+    {
+        GetPanel(UIPanelType.SuccessPanel).ShowPanel();
+        CurrentUIPanel.OnSuccessState();
     }
     #endregion
 }

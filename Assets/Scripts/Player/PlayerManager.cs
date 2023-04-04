@@ -1,7 +1,8 @@
 using UnityEngine;
-
+using System;
 public class PlayerManager : CustomBehaviour
 {
+    public event Action<int> OnAddedHighScoreEvent;
     #region Fields
     [SerializeField] private Player m_Player;
     #endregion
@@ -25,6 +26,7 @@ public class PlayerManager : CustomBehaviour
     public void AddPlayerNewHighscore(int _level, int _highscore)
     {
         m_Player.AddHighscore(_level, _highscore);
+        OnAddedHighScoreEvent?.Invoke(_highscore);
     }
     #endregion
 
