@@ -78,21 +78,28 @@ public class AutoSolver : CustomBehaviour
     private AssetReference m_AssetPath;
     public async Task<string> CheckWord(string word, Action _onCompleteSuccess = null, Action _onCompleteFailed = null)
     {
-        m_AssetPath = new AssetReference($"Assets/Resources_moved/Texts/{word[0]}/{word[0]}_{word.Length}.txt");
-        m_TextAsset = await m_AssetPath.LoadAssetAsync<TextAsset>().Task;
-        m_TargetLetters = m_TextAsset.text.ToLower().Split("\r\n");
-        m_LetterIndex = Array.BinarySearch(m_TargetLetters, word.ToLower());
+        if ((m_TargetLetters == null) || (m_TargetLetters.Length == 0) || (m_TargetLetters[0][0] != word[0]) || (m_TargetLetters[0].Length != word.Length))
+        {
+            m_AssetPath = new AssetReference($"Assets/Resources_moved/Texts/{word[0]}/{word[0]}_{word.Length}.txt");
+            m_TextAsset = await m_AssetPath.LoadAssetAsync<TextAsset>().Task;
+            m_TargetLetters = m_TextAsset.text.ToLower().Split("\r\n");
+        }
 
-        if (m_LetterIndex >= 0)
+        return await Task.Run(() =>
         {
-            _onCompleteSuccess?.Invoke();
-            return word;
-        }
-        else
-        {
-            _onCompleteFailed?.Invoke();
-            return null;
-        }
+            m_LetterIndex = Array.BinarySearch(m_TargetLetters, word.ToLower());
+
+            if (m_LetterIndex >= 0)
+            {
+                _onCompleteSuccess?.Invoke();
+                return word;
+            }
+            else
+            {
+                _onCompleteFailed?.Invoke();
+                return null;
+            }
+        });
     }
 
 }
