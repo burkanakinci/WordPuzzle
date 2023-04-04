@@ -22,11 +22,9 @@ public class LevelPopup : CustomBehaviour<LevelPopupArea>
         PopupLevelData.LevelNumber = _level;
         m_LevelCount = _level;
         m_LevelStartButton.Initialize(this);
-        
-        SetLevelPopup();
     }
 
-    private void SetLevelPopup()
+    public void SetLevelPopup()
     {
         SetLevelPopupTexts();
         SetLevelStartButton();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelPopupArea : BaseArea<MainMenuPanel>
 {
+    List<LevelPopup> m_LevelPopups;
     [SerializeField] private LevelPopup m_LevelPopupPrefab;
     [SerializeField] private Transform m_LevelPopupParent;
     private int m_LevelJsonFilesLength;
@@ -11,6 +12,7 @@ public class LevelPopupArea : BaseArea<MainMenuPanel>
     public override void Initialize(MainMenuPanel _cachedComponent)
     {
         base.Initialize(_cachedComponent);
+        m_LevelPopups = new List<LevelPopup>();
 
         m_LevelJsonFilesLength = Resources.LoadAll<TextAsset>(Constants.LEVELS_DIRECTORY).Length;
 
@@ -20,12 +22,12 @@ public class LevelPopupArea : BaseArea<MainMenuPanel>
 
         for (int _levelCount = 1; _levelCount <= m_LevelJsonFilesLength; _levelCount++)
         {
-            m_TempSpawnedLevelPopup = Instantiate(
+            m_LevelPopups.Add(m_TempSpawnedLevelPopup = Instantiate(
                 (m_LevelPopupPrefab),
                 (Vector3.zero),
                 (Quaternion.identity),
                 (m_LevelPopupParent)
-            );
+            ));
 
             _tempLevelFilePath = Constants.LEVEL_PATH + _levelCount;
             _levelTextFile = Resources.Load<TextAsset>(_tempLevelFilePath);
@@ -33,6 +35,16 @@ public class LevelPopupArea : BaseArea<MainMenuPanel>
 
             m_TempSpawnedLevelPopup.Initialize(this);
             m_TempSpawnedLevelPopup.SetLevelPopupData((_levelCount), (_tempLevelData));
+            m_TempSpawnedLevelPopup.SetLevelPopup();
         }
+    }
+
+    public override void ShowArea()
+    {
+        base.ShowArea();
+        m_LevelPopups.ForEach(_popup =>
+        {
+            _popup.SetLevelPopup();
+        });
     }
 }

@@ -1986,7 +1986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8446363599256314966, guid: 095b9980516b60a4db28342f0ca31fe1, type: 3}
       propertyPath: m_Name
-      value: LevelsButton (1)
+      value: LevelsButton2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4703345240566467245, guid: 095b9980516b60a4db28342f0ca31fe1, type: 3}
@@ -2247,7 +2247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CanvasGroup: {fileID: 1245567861}
-  m_OpenLevelArea: {fileID: 0}
   m_HighScoreArea: {fileID: 2050017075}
 --- !u!114 &1245567863
 MonoBehaviour:

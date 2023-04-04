@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class SuccessPanel : UIPanel
 {
-    [SerializeField] private UIBaseButton<SuccessPanel> m_OpenLevelArea;
     [SerializeField] private HighScoreArea m_HighScoreArea;
     public override void Initialize(UIManager _uiManager)
     {
@@ -12,10 +11,27 @@ public class SuccessPanel : UIPanel
         {
             m_HighScoreArea.ShowArea();
         };
-        m_OpenLevelArea.Initialize(this);
-        m_OpenLevelArea.AddFunctionToButtonListener(() => GameManager.Instance.OnMainMenu());
     }
 
+    public override void ShowPanel()
+    {
+        base.ShowPanel();
+
+    }
+    private Coroutine m_MainStateCoroutine;
+    private void StartMainStateCoroutine()
+    {
+        if (m_MainStateCoroutine != null)
+        {
+            StopCoroutine(m_MainStateCoroutine);
+        }
+        m_MainStateCoroutine = StartCoroutine(MainStateCoroutine());
+    }
+    private IEnumerator MainStateCoroutine()
+    {
+        yield return new WaitForSeconds(2.5f);
+        GameManager.Instance.OnMainMenu();
+    }
 }
 
 
